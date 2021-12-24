@@ -9,7 +9,15 @@ function Form(props) {
         <form {...props}>
             {props.children}
 
-            <Button type="submit">{props.btnPrimary}</Button>
+            <div>
+                {props.btnPrimary && (
+                    <Button type="submit">{props.btnPrimary}</Button>
+                )}
+
+                {props.btnCancel && (
+                    <Button to={props.btnCancel}>Cancel</Button>
+                )}
+            </div>
         </form>
     )
 }
