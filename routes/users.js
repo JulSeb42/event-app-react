@@ -4,6 +4,8 @@ const bcrypt = require("bcryptjs")
 
 const saltRounds = 10
 
+const fileUploader = require("../config/cloudinary.config")
+
 router.get("/users", (req, res, next) => {
     User.find()
         .then(userFromDb => {
@@ -62,6 +64,31 @@ router.delete("/user/:id/delete", (req, res, next) => {
     User.findByIdAndDelete(req.params.id)
         .then(() => {
             res.status(200).json({ message: "User deleted" })
+        })
+        .catch(err => next(err))
+})
+
+// Upload profile picture
+router.put(
+    "/user/upload-picture",
+    fileUploader.single("imageUrl"),
+    (req, res, next) => {
+        if (!req.file) {
+            next(new Error("No file uploaded"))
+            return
+        }
+
+        res.json({ secure_url: req.file.path })
+    }
+)
+
+router.post("/user/edit-picture", (req, res, next) => {
+    const { imageUrl, id } = req.body
+
+    User.findByIdAndUpdate(id, { imageUrl }, { new: true })
+        .then(updatedUser => {
+            console.log(updatedUser)
+            res.status(200).json(updatedUser)
         })
         .catch(err => next(err))
 })
