@@ -11,7 +11,7 @@ function Form(props) {
 
             <div>
                 {props.btnPrimary && (
-                    <Button type="submit">{props.btnPrimary}</Button>
+                    <Button type="submit" isLoading={props.isLoading}>{props.btnPrimary}</Button>
                 )}
 
                 {props.btnCancel && (

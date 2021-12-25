@@ -5,6 +5,7 @@ import Link from "../../components/utils/LinkScroll"
 // Components
 import { AuthContext } from "../../context/auth"
 import Button from "../../components/ui/Button"
+import ProfilePicture from "../../components/user/ProfilePicture"
 
 // Utils
 import convertDate from "../../components/utils/convertDate"
@@ -13,7 +14,7 @@ function MyAccount() {
     const { user } = useContext(AuthContext)
     return (
         <div>
-            <img src={user.imageUrl} alt={user.fullName} />
+            <ProfilePicture src={user.imageUrl} alt={user.fullName} size={200} />
 
             <h1>Welcome {user.fullName}</h1>
 
@@ -24,6 +25,10 @@ function MyAccount() {
             ) : (
                 <p>{user.bio}</p>
             )}
+
+            <p>
+                <Link to={`/user/${user._id}`}>Check your public profile</Link>
+            </p>
 
             <div>
                 <h2>Events</h2>

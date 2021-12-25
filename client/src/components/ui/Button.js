@@ -1,6 +1,7 @@
 // Packages
 import React from "react"
 import Link from "../utils/LinkScroll"
+import Loader from "./Loader"
 
 function Button(props) {
     return props.to ? (
@@ -8,7 +9,11 @@ function Button(props) {
             {props.children}
         </Link>
     ) : (
-        <button {...props}>{props.children}</button>
+        <button {...props}>
+            {props.children}
+
+            {props.isLoading && <Loader spinnerColor="black" />}
+        </button>
     )
 }
 

@@ -19,6 +19,8 @@ import Signup from "../pages/login/Signup"
 import MyAccount from "../pages/user/MyAccount"
 import EditAccount from "../pages/user/EditAccount"
 import EditPassword from "../pages/user/EditPassword"
+import EditProfilePicture from "../pages/user/EditProfilePicture"
+import PublicProfile from "../pages/user/PublicProfile"
 
 const API_URL = "http://localhost:5005"
 
@@ -83,6 +85,30 @@ function Switch() {
                 }
                 preload={scrollToTop()}
             />
+            <Route
+                path="/my-account/edit-picture"
+                element={
+                    <ProtectedRoutes redirectTo="/login">
+                        <EditProfilePicture
+                            edited={edited}
+                            setEdited={setEdited}
+                        />
+                    </ProtectedRoutes>
+                }
+                preload={scrollToTop()}
+            />
+            {allUsers.map(user => (
+                <Route
+                    path={`/user/${user._id}`}
+                    element={
+                        <ProtectedRoutes redirectTo="/login">
+                            <PublicProfile user={user} />
+                        </ProtectedRoutes>
+                    }
+                    preload={scrollToTop()}
+                    key={user._id}
+                />
+            ))}
 
             {/* 404 */}
             <Route path="*" element={<ErrorPage />} preload={scrollToTop()} />

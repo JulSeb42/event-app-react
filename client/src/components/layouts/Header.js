@@ -4,6 +4,7 @@ import { Link, NavLink } from "react-router-dom"
 
 // Components
 import { AuthContext } from "../../context/auth"
+import ProfilePicture from "../user/ProfilePicture"
 
 function Header() {
     const { logoutUser, user } = useContext(AuthContext)
@@ -16,7 +17,7 @@ function Header() {
                 <NavLink to="/">Home</NavLink>
 
                 <button>
-                    <img src={user.imageUrl} alt={user.fullName} />
+                    <ProfilePicture src={user.imageUrl} alt={user.fullName} size={32} />
                     <span>{user.fullName}</span>
                 </button>
 
