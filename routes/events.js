@@ -1,5 +1,6 @@
 const router = require("express").Router()
 const Event = require("../models/Event.model")
+const User = require("../models/User.model")
 
 const fileUploader = require("../config/cloudinary.config")
 
@@ -62,8 +63,11 @@ router.put("/events/new-event", (req, res, next) => {
         imageUrl,
         invitedPeople,
     })
-        .then(createdEvent => res.status(200).json({ createdEvent }))
+        .then(createdEvent => {
+            res.status(200).json({ createdEvent })
+        })
         .catch(err => next(err))
+        
 })
 
 router.put("/event/:id/edit", (req, res, next) => {

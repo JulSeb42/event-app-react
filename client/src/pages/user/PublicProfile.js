@@ -1,68 +1,70 @@
 // Packages
-import React, { useContext } from "react"
-import Link from "../../components/utils/LinkScroll"
+import React, { useState, useEffect } from "react"
+import axios from "axios"
 
 // Components
-import { AuthContext } from "../../context/auth"
-import ProfilePicture from "../../components/user/ProfilePicture"
+import Page from "../../components/layouts/Page"
+import * as Font from "../../components/styles/Font"
+import List from "../../components/events/List"
+import Card from "../../components/events/Card"
+import CardProfile from "../../components/user/CardProfile"
 
 // Utils
-import convertDate from "../../components/utils/convertDate"
+import getFirstName from "../../components/utils/getFirstName"
+
+const API_URL = "http://localhost:5005"
 
 function PublicProfile(props) {
-    const { user } = useContext(AuthContext)
+    const [allEvents, setAllEvents] = useState([])
+
+    useEffect(() => {
+        axios
+            .get(`${API_URL}/events/events`)
+            .then(res => setAllEvents(res.data))
+    }, [])
+
+    const organisedEvents = allEvents.filter(
+        event =>
+            event.organiser._id === props.user._id &&
+            event.visibility === "public"
+    )
+
+    const invitedEvents = allEvents.filter(event =>
+        event.invitedPeople.some(e => e._id === props.user._id)
+    )
+    const publicInvited = invitedEvents.filter(
+        event => event.visibility === "public"
+    )
 
     return (
-        <div>
-            <ProfilePicture
-                src={props.user.imageUrl}
-                alt={props.user.fullName}
-                size={200}
-            />
+        <Page title={props.user.fullName}>
+            <CardProfile user={props.user} />
 
-            <h1>{props.user.fullName}</h1>
+            <Font.H2>Events</Font.H2>
 
-            {props.user._id === user._id && (
-                <p>
-                    <Link to="/my-account">Back to your account</Link>
-                </p>
-            )}
-
-            <p>Born on {convertDate(props.user.dateBirth)}</p>
-
-            {!props.user.bio ? (
-                <p>{props.user.fullName} did not write a bio yet!</p>
-            ) : (
-                <p>{props.user.bio}</p>
-            )}
-
-            <h2>Events</h2>
-
-            <h3>
+            <Font.H3>
                 {props.user.gender === "man"
                     ? "His"
                     : props.user.gender === "woman"
                     ? "Her"
                     : "Their"}{" "}
                 events
-            </h3>
+            </Font.H3>
 
-            {!props.user.organisedEvents ||
-            props.user.organisedEvents.length === 0 ? (
-                <p>{props.user.fullName} did not organise any event yet!</p>
-            ) : (
-                <ul>
-                    {props.user.organisedEvents.map(event => (
-                        <li key={event._id}>
-                            <Link to={`/events/${event._id}`}>
-                                {event.title}
-                            </Link>
-                        </li>
+            {organisedEvents.length > 0 ? (
+                <List>
+                    {organisedEvents.map(event => (
+                        <Card event={event} key={event._id} />
                     ))}
-                </ul>
+                </List>
+            ) : (
+                <Font.P>
+                    {getFirstName(props.user.fullName)} did not organise any
+                    event yet!
+                </Font.P>
             )}
 
-            <h3>
+            <Font.H3>
                 Events{" "}
                 {props.user.gender === "man"
                     ? "he is"
@@ -70,26 +72,21 @@ function PublicProfile(props) {
                     ? "she is"
                     : "they are"}{" "}
                 invited to
-            </h3>
+            </Font.H3>
 
-            {!props.user.invitedEvents ||
-            props.user.organisedEvents.length === 0 ? (
-                <p>{props.user.fullName} is not invited to any event yet!</p>
+            {publicInvited.length > 0 ? (
+                <List>
+                    {publicInvited.map(event => (
+                        <Card event={event} key={event._id} />
+                    ))}
+                </List>
             ) : (
-                <ul>
-                    {props.user.invitedEvents.map(
-                        event =>
-                            event.visible && (
-                                <li>
-                                    <Link to={`/events/${event._id}`}>
-                                        {event.title}
-                                    </Link>
-                                </li>
-                            )
-                    )}
-                </ul>
+                <Font.P>
+                    {getFirstName(props.user.fullName)} is not invited to any
+                    event yet!
+                </Font.P>
             )}
-        </div>
+        </Page>
     )
 }
 

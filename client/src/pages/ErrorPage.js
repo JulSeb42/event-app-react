@@ -1,23 +1,21 @@
 // Packages
 import React from "react"
 import Link from "../components/utils/LinkScroll"
-// import { Navigate } from "react-router-dom"
 
 // Components
-// import { AuthContext } from "../context/auth"
+import Page from "../components/layouts/Page"
+import * as Font from "../components/styles/Font"
 
-function ErrorPage(props) {
-    // const { isLoggedIn } = useContext(AuthContext)
-
+function ErrorPage() {
     return (
-        <div>
-            <h1>Not found!</h1>
+        <Page title="Not found!">
+            <Font.H1>Not found!</Font.H1>
 
-            <p>
+            <Font.P>
                 This page does not exist.{" "}
                 <Link to="/">Go back to homepage</Link>
-            </p>
-        </div>
+            </Font.P>
+        </Page>
     )
 }
 

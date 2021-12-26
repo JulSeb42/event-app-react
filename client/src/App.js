@@ -1,20 +1,14 @@
 // Packages
-import React, { useContext } from "react"
-import { useLocation } from "react-router-dom"
+import React from "react"
 
 // Components
-import { AuthContext } from "./context/auth"
 import Switch from "./components/Switch"
-import Header from "./components/layouts/Header"
+import GlobalStyles from "./components/styles/GlobalStyles"
 
 function App() {
-    const location = useLocation().pathname
-    const conditionLocation = location === "/login" || location === "/signup"
-    const { isLoggedIn } = useContext(AuthContext)
-
     return (
         <>
-            {!conditionLocation && isLoggedIn && <Header />}
+            <GlobalStyles />
 
             <Switch />
         </>

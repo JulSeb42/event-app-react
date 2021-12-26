@@ -23,20 +23,6 @@ const userSchema = new Schema(
         gender: String,
         bio: String,
 
-        // Events
-        organisedEvents: [
-            {
-                type: Schema.Types.ObjectId,
-                ref: "Event",
-            },
-        ],
-        invitedEvents: [
-            {
-                type: Schema.Types.ObjectId,
-                ref: "Event",
-            },
-        ],
-
         // Friends
         friends: [
             {

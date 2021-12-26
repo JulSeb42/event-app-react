@@ -1,6 +1,6 @@
 // Packages
 import React, { useState, useEffect } from "react"
-import { Routes, Route } from "react-router-dom"
+import { Routes, Route, Navigate } from "react-router-dom"
 import axios from "axios"
 
 // Utils
@@ -124,6 +124,12 @@ function Switch() {
             ))}
 
             {/* Events */}
+            <Route
+                path="/events"
+                element={<Navigate to="/" />}
+                preload={scrollToTop()}
+            />
+            
             <Route
                 path="/events/new-event"
                 element={

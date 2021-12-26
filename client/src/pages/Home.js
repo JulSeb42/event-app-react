@@ -3,6 +3,9 @@ import React, { useState, useEffect } from "react"
 import axios from "axios"
 
 // Components
+import Page from "../components/layouts/Page"
+import * as Font from "../components/styles/Font"
+import List from "../components/events/List"
 import Card from "../components/events/Card"
 
 const API_URL = "http://localhost:5005"
@@ -18,13 +21,19 @@ function Home() {
     }, [])
 
     return (
-        <div>
+        <Page title="Homepage">
+            <Font.H1>All events</Font.H1>
+
             {allEvents.length === 0 ? (
-                <p>No event yet!</p>
+                <Font.P>No event yet!</Font.P>
             ) : (
-                allEvents.map(event => <Card event={event} key={event._id} />)
+                <List>
+                    {allEvents.map(event => (
+                        <Card event={event} key={event._id} />
+                    ))}
+                </List>
             )}
-        </div>
+        </Page>
     )
 }
 
