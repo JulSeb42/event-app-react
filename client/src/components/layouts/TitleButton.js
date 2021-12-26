@@ -1,8 +1,20 @@
 // Packages
-import React from "react"
+import styled from "styled-components"
 
-function TitleButton(props) {
-    return <div>{props.children}</div>
-}
+// Components
+import * as Variables from "../styles/Variables"
+
+// Styles
+const TitleButton = styled.div`
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    h2,
+    h3,
+    p {
+        margin-right: ${Variables.Margins.XS};
+    }
+`
 
 export default TitleButton

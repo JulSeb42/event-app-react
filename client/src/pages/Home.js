@@ -28,9 +28,13 @@ function Home() {
                 <Font.P>No event yet!</Font.P>
             ) : (
                 <List>
-                    {allEvents.map(event => (
-                        <Card event={event} key={event._id} />
-                    ))}
+                    {allEvents
+                        .sort((a, b) => {
+                            return new Date(a.startDate) - new Date(b.startDate)
+                        })
+                        .map(event => (
+                            <Card event={event} key={event._id} />
+                        ))}
                 </List>
             )}
         </Page>

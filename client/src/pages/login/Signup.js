@@ -11,6 +11,7 @@ import * as Font from "../../components/styles/Font"
 import Form from "../../components/forms/Form"
 import Input from "../../components/forms/Input"
 import Error from "../../components/forms/Error"
+import { SelectorContainer, Selector } from "../../components/forms/Selector"
 
 // Utils
 import randomAvatar from "../../components/utils/randomAvatar"
@@ -109,7 +110,33 @@ function Signup() {
                     value={password}
                 />
 
-                <div>
+                <SelectorContainer label="Gender">
+                    <Selector
+                        label="Man"
+                        id="man"
+                        type="radio"
+                        name="gender"
+                        onChange={handleGenderMale}
+                    />
+
+                    <Selector
+                        label="Woman"
+                        id="woman"
+                        type="radio"
+                        name="gender"
+                        onChange={handleGenderFemale}
+                    />
+
+                    <Selector
+                        label="Other"
+                        id="other"
+                        type="radio"
+                        name="gender"
+                        onChange={handleGenderOther}
+                    />
+                </SelectorContainer>
+
+                {/* <div>
                     <p>Gender</p>
 
                     <Input
@@ -135,7 +162,7 @@ function Signup() {
                         name="gender"
                         onChange={handleGenderOther}
                     />
-                </div>
+                </div> */}
 
                 <Input
                     label="Date of birth"
@@ -143,6 +170,7 @@ function Signup() {
                     type="date"
                     onChange={handleDateBirth}
                     value={dateBirth}
+                    dateBirth
                 />
 
                 <Input

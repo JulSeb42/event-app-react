@@ -1,8 +1,14 @@
 // Packages
-import React from "react"
+import styled from "styled-components"
 
-function Item(props) {
-    return <div>{props.children}</div>
-}
+// Components
+import * as Variables from "../styles/Variables"
+
+// Styles
+const Item = styled.div`
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: ${Variables.Margins.XS};
+`
 
 export default Item

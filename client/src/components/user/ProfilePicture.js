@@ -9,6 +9,8 @@ const Container = styled.img`
     height: var(--size);
     border-radius: 50%;
     object-fit: cover;
+    position: relative;
+    z-index: 1;
 `
 
 function ProfilePicture(props) {

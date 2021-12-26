@@ -1,8 +1,13 @@
 // Packages
-import React from "react"
+import styled from "styled-components"
 
-function Grid(props) {
-    return <div>{props.children}</div>
-}
+// Components
+import * as Variables from "../styles/Variables"
+
+const Grid = styled.div`
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: ${Variables.Margins.M};
+`
 
 export default Grid

@@ -13,8 +13,10 @@ import Input from "../../components/forms/Input"
 import Textarea from "../../components/forms/Textarea"
 import DangerZone from "../../components/forms/DangerZone"
 import service from "../../api/service"
-import ProfilePicture from "../../components/user/ProfilePicture"
+// import ProfilePicture from "../../components/user/ProfilePicture"
+import InputProfilePicture from "../../components/forms/InputProfilePicture"
 import Error from "../../components/forms/Error"
+import { Selector, SelectorContainer } from "../../components/forms/Selector"
 
 const API_URL = "http://localhost:5005"
 
@@ -120,15 +122,11 @@ function EditAccount({ edited, setEdited }) {
 
             <Form
                 btnPrimary="Save changes"
+                btnCancel="/my-account"
                 onSubmit={handleSubmit}
                 isLoading={isLoading}
             >
-                <ProfilePicture src={picture} alt={user.fullName} />
-                <Input
-                    label="Profile picture"
-                    type="file"
-                    onChange={e => handleFileUpload(e)}
-                />
+                <InputProfilePicture src={picture} alt={user.fullName} onChange={e => handleFileUpload(e)} id="imageUrl" />
 
                 <Input
                     label="Full name"
@@ -139,10 +137,8 @@ function EditAccount({ edited, setEdited }) {
 
                 <Input label="Email" id="email" disabled value={user.email} />
 
-                <div>
-                    <Font.P>Gender</Font.P>
-
-                    <Input
+                <SelectorContainer label="Gender">
+                    <Selector
                         label="man"
                         id="man"
                         type="radio"
@@ -151,7 +147,7 @@ function EditAccount({ edited, setEdited }) {
                         defaultChecked={gender === "man" && true}
                     />
 
-                    <Input
+                    <Selector
                         label="woman"
                         id="woman"
                         type="radio"
@@ -160,7 +156,7 @@ function EditAccount({ edited, setEdited }) {
                         defaultChecked={gender === "woman" && true}
                     />
 
-                    <Input
+                    <Selector
                         label="other"
                         id="other"
                         type="radio"
@@ -168,7 +164,7 @@ function EditAccount({ edited, setEdited }) {
                         onChange={handleGenderOther}
                         defaultChecked={gender === "other" && true}
                     />
-                </div>
+                </SelectorContainer>
 
                 <Input
                     type="date"
@@ -176,6 +172,7 @@ function EditAccount({ edited, setEdited }) {
                     id="dateBirth"
                     onChange={handleDateBirth}
                     value={dateBirth}
+                    dateBirth
                 />
 
                 <Input
@@ -190,6 +187,7 @@ function EditAccount({ edited, setEdited }) {
                     id="bio"
                     onChange={handleBio}
                     value={bio}
+                    counter={140}
                 />
             </Form>
 

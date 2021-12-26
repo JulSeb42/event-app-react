@@ -16,6 +16,10 @@ import Error from "../../components/forms/Error"
 import ListUsers from "../../components/forms/ListUsers"
 import Grid from "../../components/forms/Grid"
 
+// Utils
+import getToday from "../../components/utils/getToday"
+import getNow from "../../components/utils/getNow"
+
 const API_URL = "http://localhost:5005"
 
 function NewEvent() {
@@ -27,8 +31,8 @@ function NewEvent() {
     const [visibility, setVisibility] = useState("private")
     const [startDate, setStartDate] = useState("")
     const [endDate, setEndDate] = useState("")
-    const [startTime, setStartTime] = useState("")
-    const [endTime, setEndTime] = useState("")
+    const [startTime, setStartTime] = useState(getNow(0))
+    const [endTime, setEndTime] = useState(getNow(1))
     const [description, setDescription] = useState("")
     const [imageUrl, setImageUrl] = useState("")
     const [isLoading, setIsLoading] = useState(false)
@@ -117,7 +121,7 @@ function NewEvent() {
             organiser: user._id,
             imageUrl,
             description,
-            invitedPeople,
+            invitedPeople: Array.from(new Set(invitedPeople)),
             visibility,
         }
 
@@ -126,6 +130,7 @@ function NewEvent() {
             .then(res => {
                 console.log(res.data)
                 navigate(`/events/${res.data.createdEvent._id}`)
+                window.location.reload(false)
             })
             .catch(err => {
                 const errorDescription = err.response.data.errorMessage
@@ -148,6 +153,7 @@ function NewEvent() {
                     id="title"
                     onChange={handleTitle}
                     value={title}
+                    required
                 />
 
                 <Input
@@ -155,6 +161,7 @@ function NewEvent() {
                     id="location"
                     onChange={handleLocation}
                     value={location}
+                    required
                 />
 
                 <Toggle
@@ -171,6 +178,8 @@ function NewEvent() {
                         type="date"
                         onChange={handleStartDate}
                         value={startDate}
+                        min={getToday()}
+                        required
                     />
 
                     <Input
@@ -179,6 +188,8 @@ function NewEvent() {
                         type="date"
                         onChange={handleEndDate}
                         value={endDate}
+                        min={startDate !== "" ? startDate : getToday()}
+                        required
                     />
                 </Grid>
 
@@ -189,6 +200,7 @@ function NewEvent() {
                         type="time"
                         onChange={handleStartTime}
                         value={startTime}
+                        required
                     />
 
                     <Input
@@ -197,6 +209,7 @@ function NewEvent() {
                         type="time"
                         onChange={handleEndTime}
                         value={endTime}
+                        required
                     />
                 </Grid>
 

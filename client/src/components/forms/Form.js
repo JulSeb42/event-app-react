@@ -1,24 +1,34 @@
 // Packages
 import React from "react"
+import styled from "styled-components"
 
 // Components
 import Button from "../ui/Button"
+import * as Variables from "../styles/Variables"
+import ButtonsContainer from "./ButtonsContainer"
+
+// Styles
+const Container = styled.form`
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: ${Variables.Margins.M};
+`
 
 function Form(props) {
     return (
-        <form {...props}>
+        <Container {...props}>
             {props.children}
 
-            <div>
+            <ButtonsContainer>
                 {props.btnPrimary && (
-                    <Button type="submit" isLoading={props.isLoading}>{props.btnPrimary}</Button>
+                    <Button type="submit" isLoading={props.isLoading} btnstyle="primary">{props.btnPrimary}</Button>
                 )}
 
                 {props.btnCancel && (
-                    <Button to={props.btnCancel}>Cancel</Button>
+                    <Button to={props.btnCancel} btnstyle="secondary">Cancel</Button>
                 )}
-            </div>
-        </form>
+            </ButtonsContainer>
+        </Container>
     )
 }
 

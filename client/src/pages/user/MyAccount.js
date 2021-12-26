@@ -44,7 +44,9 @@ function MyAccount() {
             <TitleButton>
                 <Font.H2>Events</Font.H2>
 
-                <Button to="/events/new-event">Add a new event</Button>
+                <Button to="/events/new-event" btnstyle="primary">
+                    Add a new event
+                </Button>
             </TitleButton>
 
             <Item>
@@ -52,9 +54,16 @@ function MyAccount() {
 
                 {organisedEvents.length > 0 ? (
                     <List>
-                        {organisedEvents.map(event => (
-                            <Card event={event} key={event._id} />
-                        ))}
+                        {organisedEvents
+                            .sort((a, b) => {
+                                return (
+                                    new Date(a.startDate) -
+                                    new Date(b.startDate)
+                                )
+                            })
+                            .map(event => (
+                                <Card event={event} key={event._id} />
+                            ))}
                     </List>
                 ) : (
                     <Font.P>You did not organise any event yet!</Font.P>
@@ -66,9 +75,16 @@ function MyAccount() {
 
                 {invitedEvents.length > 0 ? (
                     <List>
-                        {invitedEvents.map(event => (
-                            <Card event={event} key={event._id} />
-                        ))}
+                        {invitedEvents
+                            .sort((a, b) => {
+                                return (
+                                    new Date(a.startDate) -
+                                    new Date(b.startDate)
+                                )
+                            })
+                            .map(event => (
+                                <Card event={event} key={event._id} />
+                            ))}
                     </List>
                 ) : (
                     <Font.P>You are not invited to any event yet!</Font.P>

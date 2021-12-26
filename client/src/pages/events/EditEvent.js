@@ -16,6 +16,7 @@ import DangerZone from "../../components/forms/DangerZone"
 import Error from "../../components/forms/Error"
 import Grid from "../../components/forms/Grid"
 import ListUsers from "../../components/forms/ListUsers"
+import InputCover from "../../components/forms/InputCover"
 
 const API_URL = "http://localhost:5005"
 
@@ -36,11 +37,11 @@ function EditEvent({ edited, setEdited, ...props }) {
     const [startTime, setStartTime] = useState(props.event.startTime)
     const [endTime, setEndTime] = useState(props.event.endTime)
     const [description, setDescription] = useState(props.event.description)
-    const [imageUrl, setImageUrl] = useState("")
+    const [imageUrl, setImageUrl] = useState(props.event.imageUrl)
     const [picture, setPicture] = useState(props.event.imageUrl)
     const [isLoading, setIsLoading] = useState(false)
     const [invitedPeople, setInvitedPeople] = useState(
-        props.event.invitedPeople
+        props.event.invitedPeople.map(event => event._id)
     )
     const [errorMessage, setErrorMessage] = useState(undefined)
 
@@ -112,8 +113,10 @@ function EditEvent({ edited, setEdited, ...props }) {
     const handleInvitedPeople = e => {
         if (e.target.checked) {
             setInvitedPeople(arr => [e.target.value, ...arr])
+            console.log(invitedPeople)
         } else {
             setInvitedPeople(invitedPeople.filter(id => id !== e.target.value))
+            console.log(invitedPeople)
         }
     }
 
@@ -131,7 +134,7 @@ function EditEvent({ edited, setEdited, ...props }) {
             endTime,
             description,
             imageUrl,
-            invitedPeople,
+            invitedPeople: Array.from(new Set(invitedPeople)),
         }
 
         axios
@@ -159,11 +162,9 @@ function EditEvent({ edited, setEdited, ...props }) {
                 onSubmit={handleSubmit}
                 isLoading={isLoading}
             >
-                <img src={picture} alt={title} />
-
-                <Input
-                    label="Cover"
-                    type="file"
+                <InputCover
+                    src={picture}
+                    alt={title}
                     onChange={e => handleFileUpload(e)}
                 />
 
