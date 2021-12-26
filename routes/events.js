@@ -66,15 +66,50 @@ router.put("/events/new-event", (req, res, next) => {
         .catch(err => next(err))
 })
 
-// router.post("/user/edit-picture", (req, res, next) => {
-//     const { imageUrl, id } = req.body
+router.put("/event/:id/edit", (req, res, next) => {
+    const {
+        title,
+        startDate,
+        endDate,
+        startTime,
+        endTime,
+        organiser,
+        visibility,
+        description,
+        location,
+        imageUrl,
+        invitedPeople,
+    } = req.body
 
-//     User.findByIdAndUpdate(id, { imageUrl }, { new: true })
-//         .then(updatedUser => {
-//             console.log(updatedUser)
-//             res.status(200).json(updatedUser)
-//         })
-//         .catch(err => next(err))
-// })
+    Event.findByIdAndUpdate(
+        req.params.id,
+        {
+            title,
+            startDate,
+            endDate,
+            startTime,
+            endTime,
+            organiser,
+            visibility,
+            description,
+            location,
+            imageUrl,
+            invitedPeople,
+        },
+        { new: true }
+    )
+        .then(updatedEvent => {
+            res.status(200).json({ event: updatedEvent })
+        })
+        .catch(err => next(err))
+})
+
+router.delete("/event/:id/delete", (req, res, next) => {
+    Event.findByIdAndDelete(req.params.id)
+        .then(() => {
+            res.status(200).json({ message: "Event deleted" })
+        })
+        .catch(err => next(err))
+})
 
 module.exports = router

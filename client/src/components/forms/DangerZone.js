@@ -9,7 +9,7 @@ import Button from "../ui/Button"
 
 const API_URL = "http://localhost:5005"
 
-function DangerZone() {
+function DangerZone(props) {
     const [open, setOpen] = useState(false)
     const { user, logoutUser } = useContext(AuthContext)
     const navigate = useNavigate()
@@ -17,12 +17,21 @@ function DangerZone() {
     const display = open ? "block" : "none"
     const displayButton = !open ? "block" : "none"
 
-    const handleDelete = () => {
+    const handleDeleteAccount = () => {
         axios
             .delete(`${API_URL}/users/user/${user._id}/delete`)
             .then(() => {
                 logoutUser()
                 navigate("/login")
+            })
+            .catch(err => console.log(err))
+    }
+
+    const handleDeleteEvent = () => {
+        axios
+            .delete(`${API_URL}/events/event/${props.eventId}/delete`)
+            .then(() => {
+                navigate("/my-account")
             })
             .catch(err => console.log(err))
     }
@@ -33,15 +42,24 @@ function DangerZone() {
                 onClick={() => setOpen(true)}
                 style={{ display: displayButton }}
             >
-                Delete account
+                Delete {props.event ? "event" : "account"}
             </Button>
 
             <div style={{ display: display }}>
-                <p>Do you want to delete your account?</p>
+                <p>
+                    Do you want to delete{" "}
+                    {props.event ? "this event" : "your account"}?
+                </p>
 
                 <div>
-                    <Button onClick={handleDelete}>
-                        Yes, delete my account
+                    <Button
+                        onClick={
+                            props.event
+                                ? handleDeleteEvent
+                                : handleDeleteAccount
+                        }
+                    >
+                        Yes, delete {props.event ? "this event" : "my account"}
                     </Button>
                     <Button onClick={() => setOpen(false)}>No, cancel</Button>
                 </div>
