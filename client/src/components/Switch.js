@@ -22,12 +22,18 @@ import EditPassword from "../pages/user/EditPassword"
 import EditProfilePicture from "../pages/user/EditProfilePicture"
 import PublicProfile from "../pages/user/PublicProfile"
 
+// Events
+import NewEvent from "../pages/events/NewEvent"
+import EventDetail from "../pages/events/EventDetail"
+import EditEvent from "../pages/events/EditEvent"
+
 const API_URL = "http://localhost:5005"
 
 function Switch() {
     // localStorage.clear()
     const [edited, setEdited] = useState(false)
     const [allUsers, setAllUsers] = useState([])
+    const [allEvents, setAllEvents] = useState([])
 
     useEffect(() => {
         axios
@@ -35,6 +41,13 @@ function Switch() {
             .then(res => setAllUsers(res.data))
             .catch(err => console.log(err))
     }, [edited])
+
+    useEffect(() => {
+        axios
+            .get(`${API_URL}/events/events`)
+            .then(res => setAllEvents(res.data))
+            .catch(err => console.log(err))
+    }, [])
 
     return (
         <Routes>
@@ -107,6 +120,45 @@ function Switch() {
                     }
                     preload={scrollToTop()}
                     key={user._id}
+                />
+            ))}
+
+            {/* Events */}
+            <Route
+                path="/events/new-event"
+                element={
+                    <ProtectedRoutes redirectTo="/login">
+                        <NewEvent />
+                    </ProtectedRoutes>
+                }
+                preload={scrollToTop()}
+            />
+            {allEvents.map(event => (
+                <Route
+                    path={`/events/${event._id}`}
+                    element={
+                        <ProtectedRoutes redirectTo="/login">
+                            <EventDetail event={event} />
+                        </ProtectedRoutes>
+                    }
+                    preload={scrollToTop()}
+                    key={event._id}
+                />
+            ))}
+            {allEvents.map(event => (
+                <Route
+                    path={`/events/${event._id}/edit`}
+                    element={
+                        <ProtectedRoutes redirectTo="/login">
+                            <EditEvent
+                                event={event}
+                                edited={edited}
+                                setEdited={setEdited}
+                            />
+                        </ProtectedRoutes>
+                    }
+                    preload={scrollToTop()}
+                    key={`${event.title}-${event._id}`}
                 />
             ))}
 

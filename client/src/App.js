@@ -11,7 +11,7 @@ function App() {
     const location = useLocation().pathname
     const conditionLocation = location === "/login" || location === "/signup"
     const { isLoggedIn } = useContext(AuthContext)
-    
+
     return (
         <>
             {!conditionLocation && isLoggedIn && <Header />}

@@ -1,17 +1,15 @@
 // Packages
-import React, { useContext } from "react"
+import React from "react"
 import Link from "../components/utils/LinkScroll"
-import { Navigate } from "react-router-dom"
+// import { Navigate } from "react-router-dom"
 
 // Components
-import { AuthContext } from "../context/auth"
+// import { AuthContext } from "../context/auth"
 
 function ErrorPage(props) {
-    const { isLoggedIn } = useContext(AuthContext)
-    
-    return !isLoggedIn ? (
-        <Navigate to="/login" />
-    ) : (
+    // const { isLoggedIn } = useContext(AuthContext)
+
+    return (
         <div>
             <h1>Not found!</h1>
 
