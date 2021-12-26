@@ -4,28 +4,27 @@ import Link from "../../components/utils/LinkScroll"
 
 // Components
 import { AuthContext } from "../../context/auth"
+import Page from "../../components/layouts/Page"
+import * as Font from "../../components/styles/Font"
 import Button from "../../components/ui/Button"
+import Item from "../../components/layouts/Item"
+import Cover from "../../components/events/Cover"
+import List from "../../components/user/List"
+import CardPicture from "../../components/user/CardPicture"
 
 function EventDetail(props) {
     const { user, isLoggedIn } = useContext(AuthContext)
 
     return (
-        <div>
-            <img src={props.event.imageUrl} alt={props.event.title} />
+        <Page title={props.event.title}>
+            <Cover event={props.event} />
 
-            <h1>{props.event.title}</h1>
-
-            <p>
-                From {props.event.startDate} at {props.event.startTime} to{" "}
-                {props.event.endDate} at {props.event.endTime}
-            </p>
-
-            <p>
+            <Font.P>
                 Organised by{" "}
                 <Link to={`/user/${props.event.organiser._id}`}>
                     {props.event.organiser.fullName}
                 </Link>
-            </p>
+            </Font.P>
 
             {isLoggedIn && user._id === props.event.organiser._id && (
                 <Button to={`/events/${props.event._id}/edit`}>
@@ -33,34 +32,36 @@ function EventDetail(props) {
                 </Button>
             )}
 
-            <h2>Location</h2>
-            <p>{props.event.location}</p>
+            <Item>
+                <Font.H2>Location</Font.H2>
+                <Font.P>{props.event.location}</Font.P>
+            </Item>
 
-            <h2>About</h2>
-            <p>{props.event.description}</p>
+            <Item>
+                <Font.H2>About</Font.H2>
+                <Font.P bio>{props.event.description}</Font.P>
+            </Item>
 
-            <h2>Participants</h2>
-            {!props.event.invitedPeople ||
-            props.event.invitedPeople.length === 0 ? (
-                <p>
-                    {props.event.organiser._id === user._id
-                        ? "You did not invite anyone yet!"
-                        : "No participants yet."}
-                </p>
-            ) : (
-                <ul>
-                    {props.event.invitedPeople.map(user => (
-                        <li key={user._id}>
-                            <Link to={`/user/${user._id}`}>
-                                {user.fullName}
-                            </Link>
-                        </li>
-                    ))}
-                </ul>
-            )}
+            <Item>
+                <Font.H2>Participants</Font.H2>
+                {!props.event.invitedPeople ||
+                props.event.invitedPeople.length === 0 ? (
+                    <Font.P>
+                        {props.event.organiser._id === user._id
+                            ? "You did not invite anyone yet!"
+                            : "No participants yet."}
+                    </Font.P>
+                ) : (
+                    <List>
+                        {props.event.invitedPeople.map(user => (
+                            <CardPicture user={user} key={user._id} />
+                        ))}
+                    </List>
+                )}
+            </Item>
 
             {/* Wall */}
-        </div>
+        </Page>
     )
 }
 

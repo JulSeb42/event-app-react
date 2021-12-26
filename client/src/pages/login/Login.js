@@ -6,8 +6,11 @@ import axios from "axios"
 
 // Components
 import { AuthContext } from "../../context/auth"
+import Page from "../../components/layouts/Page"
+import * as Font from "../../components/styles/Font"
 import Form from "../../components/forms/Form"
 import Input from "../../components/forms/Input"
+import Error from "../../components/forms/Error"
 
 const API_URL = "http://localhost:5005"
 
@@ -42,8 +45,8 @@ function Login() {
     return isLoggedIn ? (
         <Navigate to="/" />
     ) : (
-        <div>
-            <h1>Login</h1>
+        <Page title="Login">
+            <Font.H1>Login</Font.H1>
 
             <Form btnPrimary="Login" onSubmit={handleSubmit}>
                 <Input
@@ -63,12 +66,12 @@ function Login() {
                 />
             </Form>
 
-            {errorMessage && <p>{errorMessage}</p>}
+            {errorMessage && <Error>{errorMessage}</Error>}
 
-            <p>
+            <Font.P>
                 No account? <Link to="/signup">Signup</Link>
-            </p>
-        </div>
+            </Font.P>
+        </Page>
     )
 }
 

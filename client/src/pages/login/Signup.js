@@ -6,8 +6,11 @@ import axios from "axios"
 
 // Components
 import { AuthContext } from "../../context/auth"
+import Page from "../../components/layouts/Page"
+import * as Font from "../../components/styles/Font"
 import Form from "../../components/forms/Form"
 import Input from "../../components/forms/Input"
+import Error from "../../components/forms/Error"
 
 // Utils
 import randomAvatar from "../../components/utils/randomAvatar"
@@ -79,8 +82,9 @@ function Signup() {
     return isLoggedIn ? (
         <Navigate to="/" />
     ) : (
-        <div>
-            <h1>Signup</h1>
+        <Page title="Signup">
+            <Font.H1>Signup</Font.H1>
+
             <Form btnPrimary="Signup" onSubmit={handleSubmit}>
                 <Input
                     label="Full name"
@@ -149,12 +153,12 @@ function Signup() {
                 />
             </Form>
 
-            {errorMessage && <p>{errorMessage}</p>}
+            {errorMessage && <Error>{errorMessage}</Error>}
 
-            <p>
+            <Font.P>
                 You already have an account? <Link to="/login">Login</Link>
-            </p>
-        </div>
+            </Font.P>
+        </Page>
     )
 }
 

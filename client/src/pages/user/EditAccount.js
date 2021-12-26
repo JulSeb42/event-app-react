@@ -6,10 +6,15 @@ import { useNavigate } from "react-router-dom"
 
 // Components
 import { AuthContext } from "../../context/auth"
+import Page from "../../components/layouts/Page"
+import * as Font from "../../components/styles/Font"
 import Form from "../../components/forms/Form"
 import Input from "../../components/forms/Input"
 import Textarea from "../../components/forms/Textarea"
 import DangerZone from "../../components/forms/DangerZone"
+import service from "../../api/service"
+import ProfilePicture from "../../components/user/ProfilePicture"
+import Error from "../../components/forms/Error"
 
 const API_URL = "http://localhost:5005"
 
@@ -48,6 +53,36 @@ function EditAccount({ edited, setEdited }) {
     const handleCity = e => setCity(e.target.value)
     const handleBio = e => setBio(e.target.value)
 
+    // Profile picture
+    const [imageUrl, setImageUrl] = useState("")
+    const [picture, setPicture] = useState(user.imageUrl)
+    const [isLoading, setIsLoading] = useState(false)
+
+    const handleFileUpload = e => {
+        e.preventDefault()
+        const uploadData = new FormData()
+        setIsLoading(true)
+
+        uploadData.append("imageUrl", e.target.files[0])
+
+        service
+            .uploadImage(uploadData)
+            .then(res => {
+                setImageUrl(res.secure_url)
+                setIsLoading(false)
+            })
+            .catch(err => console.log(err))
+
+        if (e.target.files[0]) {
+            setPicture(e.target.files[0])
+            const reader = new FileReader()
+            reader.addEventListener("load", () => {
+                setPicture(reader.result)
+            })
+            reader.readAsDataURL(e.target.files[0])
+        }
+    }
+
     const handleSubmit = e => {
         e.preventDefault()
 
@@ -58,6 +93,7 @@ function EditAccount({ edited, setEdited }) {
             city,
             bio,
             id: user._id,
+            imageUrl,
         }
 
         axios
@@ -75,20 +111,25 @@ function EditAccount({ edited, setEdited }) {
     }
 
     return (
-        <div>
-            <h1>Edit your account</h1>
+        <Page title={`Edit ${user.fullName}`}>
+            <Font.H1>Edit your account</Font.H1>
 
-            <p>
+            <Font.P>
                 <Link to="/my-account/edit-password">Edit your password</Link>
-            </p>
+            </Font.P>
 
-            <p>
-                <Link to="/my-account/edit-picture">
-                    Edit your profile picture
-                </Link>
-            </p>
+            <Form
+                btnPrimary="Save changes"
+                onSubmit={handleSubmit}
+                isLoading={isLoading}
+            >
+                <ProfilePicture src={picture} alt={user.fullName} />
+                <Input
+                    label="Profile picture"
+                    type="file"
+                    onChange={e => handleFileUpload(e)}
+                />
 
-            <Form btnPrimary="Save changes" onSubmit={handleSubmit}>
                 <Input
                     label="Full name"
                     id="fullName"
@@ -99,7 +140,7 @@ function EditAccount({ edited, setEdited }) {
                 <Input label="Email" id="email" disabled value={user.email} />
 
                 <div>
-                    <p>Gender</p>
+                    <Font.P>Gender</Font.P>
 
                     <Input
                         label="man"
@@ -152,10 +193,10 @@ function EditAccount({ edited, setEdited }) {
                 />
             </Form>
 
-            {errorMessage && <p>{errorMessage}</p>}
+            {errorMessage && <Error>{errorMessage}</Error>}
 
             <DangerZone />
-        </div>
+        </Page>
     )
 }
 

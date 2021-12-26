@@ -5,8 +5,11 @@ import { useNavigate } from "react-router-dom"
 
 // Components
 import { AuthContext } from "../../context/auth"
+import Page from "../../components/layouts/Page"
+import * as Font from "../../components/styles/Font"
 import Form from "../../components/forms/Form"
 import Input from "../../components/forms/Input"
+import Error from "../../components/forms/Error"
 
 const API_URL = "http://localhost:5005"
 
@@ -38,12 +41,12 @@ function EditPassword({ edited, setEdited }) {
     }
 
     return (
-        <div>
-            <h1>Edit your password</h1>
+        <Page title="Edit your password">
+            <Font.H1>Edit your password</Font.H1>
 
             <Form
                 btnPrimary="Save your password"
-                btnCancel="/my-account"
+                btnCancel="/my-account/edit"
                 onSubmit={handleSubmit}
             >
                 <Input
@@ -55,8 +58,8 @@ function EditPassword({ edited, setEdited }) {
                 />
             </Form>
 
-            {errorMessage && <p>{errorMessage}</p>}
-        </div>
+            {errorMessage && <Error>{errorMessage}</Error>}
+        </Page>
     )
 }
 

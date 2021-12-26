@@ -23,11 +23,11 @@ router.get("/user/:id", (req, res, next) => {
 })
 
 router.put("/user/edit", (req, res, next) => {
-    const { id, fullName, gender, dateBirth, city, bio } = req.body
+    const { id, fullName, gender, dateBirth, city, bio, imageUrl } = req.body
 
     User.findByIdAndUpdate(
         id,
-        { fullName, gender, dateBirth, city, bio },
+        { fullName, gender, dateBirth, city, bio, imageUrl },
         { new: true }
     )
         .then(updatedUser => {

@@ -5,12 +5,16 @@ import { useNavigate } from "react-router-dom"
 
 // Components
 import { AuthContext } from "../../context/auth"
+import Page from "../../components/layouts/Page"
+import * as Font from "../../components/styles/Font"
 import Form from "../../components/forms/Form"
 import Input from "../../components/forms/Input"
 import Toggle from "../../components/forms/Toggle"
 import Textarea from "../../components/forms/Textarea"
-import CardSmall from "../../components/user/CardSmall"
 import service from "../../api/service-event"
+import Error from "../../components/forms/Error"
+import ListUsers from "../../components/forms/ListUsers"
+import Grid from "../../components/forms/Grid"
 
 const API_URL = "http://localhost:5005"
 
@@ -130,8 +134,8 @@ function NewEvent() {
     }
 
     return (
-        <div>
-            <h1>Add a new event</h1>
+        <Page title="New event">
+            <Font.H1>Add a new event</Font.H1>
 
             <Form
                 btnPrimary="Create a new event"
@@ -160,7 +164,7 @@ function NewEvent() {
                     value={visibility}
                 />
 
-                <div>
+                <Grid>
                     <Input
                         label="Start date"
                         id="startDate"
@@ -176,9 +180,9 @@ function NewEvent() {
                         onChange={handleEndDate}
                         value={endDate}
                     />
-                </div>
+                </Grid>
 
-                <div>
+                <Grid>
                     <Input
                         label="Start time"
                         id="startTime"
@@ -194,7 +198,7 @@ function NewEvent() {
                         onChange={handleEndTime}
                         value={endTime}
                     />
-                </div>
+                </Grid>
 
                 <Textarea
                     label="Description"
@@ -210,31 +214,17 @@ function NewEvent() {
                     onChange={e => handleFileUpload(e)}
                 />
 
-                <div>
-                    <Input
-                        label="Invite people"
-                        type="search"
-                        id="searchUsers"
-                        onChange={handleSearch}
-                        value={query}
-                    />
-
-                    <ul>
-                        {results.map(user => (
-                            <li key={user._id}>
-                                <CardSmall
-                                    user={user}
-                                    name="invitedPeople"
-                                    onChange={handleInvitedPeople}
-                                />
-                            </li>
-                        ))}
-                    </ul>
-                </div>
+                <ListUsers
+                    handleSearch={handleSearch}
+                    valueSearch={query}
+                    results={results}
+                    handleInvitedPeople={handleInvitedPeople}
+                    invitedPeople={invitedPeople}
+                />
             </Form>
 
-            {errorMessage && <p>{errorMessage}</p>}
-        </div>
+            {errorMessage && <Error>{errorMessage}</Error>}
+        </Page>
     )
 }
 
