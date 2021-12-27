@@ -5,7 +5,7 @@ import styled from "styled-components"
 // Components
 import { SelectorContainer, Selector } from "../forms/Selector"
 import * as Font from "../styles/Font"
-import * as Variables from "../styles/Variables"
+// import * as Variables from "../styles/Variables"
 import List from "../events/List"
 import Card from "../events/Card"
 
@@ -14,9 +14,9 @@ const Container = styled.div`
     display: ${props => (props.visible ? "block" : "none")};
 `
 
-const Title = styled(Font.H4)`
-    margin-bottom: ${Variables.Margins.M};
-`
+// const Title = styled(Font.H4)`
+//     margin-bottom: ${Variables.Margins.M};
+// `
 
 function Tabs(props) {
     const [isVisibleFuture, setIsVisibleFuture] = useState(true)
@@ -58,7 +58,7 @@ function Tabs(props) {
             </SelectorContainer>
 
             <Container visible={isVisibleFuture}>
-                <Title>Future events</Title>
+                {/* <Title>Future events</Title> */}
 
                 {props.futureEvents.length > 0 ? (
                     <List>
@@ -82,7 +82,7 @@ function Tabs(props) {
             </Container>
 
             <Container visible={isVisiblePast}>
-                <Title>Past events</Title>
+                {/* <Title>Past events</Title> */}
 
                 {props.pastEvents.length > 0 ? (
                     <List>

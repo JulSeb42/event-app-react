@@ -99,6 +99,7 @@ const Drawer = styled.div`
     max-height: 0;
     overflow: hidden;
     transition: ${Variables.Transitions.Short};
+    z-index: 999;
 
     a {
         margin-right: 0;

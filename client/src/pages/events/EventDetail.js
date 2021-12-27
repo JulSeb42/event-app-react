@@ -13,6 +13,7 @@ import List from "../../components/user/List"
 import CardPicture from "../../components/user/CardPicture"
 import TitleButton from "../../components/layouts/TitleButton"
 import Description from "../../components/events/Description"
+import Wall from "../../components/wall/Wall"
 
 function EventDetail(props) {
     const { user, isLoggedIn } = useContext(AuthContext)
@@ -82,6 +83,7 @@ function EventDetail(props) {
             </Item>
 
             {/* Wall */}
+            <Wall eventId={props.event._id} />
         </Page>
     )
 }

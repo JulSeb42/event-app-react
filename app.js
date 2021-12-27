@@ -28,6 +28,9 @@ app.use("/users", users)
 const events = require("./routes/events")
 app.use("/events", events)
 
+const posts = require("./routes/posts")
+app.use("/posts", posts)
+
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app)
 
