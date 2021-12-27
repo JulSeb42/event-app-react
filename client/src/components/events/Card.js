@@ -28,9 +28,8 @@ const Container = styled(Link)`
 `
 
 const Img = styled.img`
-    width: 150px;
+    width: 180px;
     aspect-ratio: 1;
-    ${'' /* margin-right: ${Variables.Margins.XS}; */}
     object-fit: cover;
 
     ${props => props.empty && css`
@@ -53,6 +52,10 @@ const Location = styled(Font.P)`
     font-weight: ${Variables.FontWeights.Bold};
 `
 
+const Price = styled(Font.Strong)`
+    
+`
+
 function Card(props) {
     return (
         <Container to={`/events/${props.event._id}`}>
@@ -64,12 +67,17 @@ function Card(props) {
 
             <Content>
                 <Title>{props.event.title}</Title>
+
                 <Location>{props.event.location}</Location>
 
                 <Font.P>
                     {convertDate(props.event.startDate)} at{" "}
                     {props.event.startTime}
                 </Font.P>
+
+                <Price>
+                    {props.event.price === 0 ? "Free" : `${props.event.price} €`}
+                </Price>
             </Content>
         </Container>
     )

@@ -102,6 +102,9 @@ function PublicProfile(props) {
                     allEvents={organisedEvents}
                     futureEvents={organisedFutureEvents}
                     pastEvents={organisedPastEvents}
+                    name="organisedEvents"
+                    idFutureEvents="futureEventsOrganised"
+                    idPastEvents="pastEventsOrganised"
                 />
             </Item>
 
@@ -140,6 +143,9 @@ function PublicProfile(props) {
                     allEvents={invitedEvents}
                     futureEvents={invitedFutureEvents}
                     pastEvents={invitedPastEvents}
+                    name="invitedEvent"
+                    idFutureEvents="futureEventsInvited"
+                    idPastEvents="pastEventsInvited"
                 />
             </Item>
         </Page>

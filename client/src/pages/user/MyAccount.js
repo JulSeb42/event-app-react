@@ -98,6 +98,9 @@ function MyAccount() {
                     allEvents={organisedEvents}
                     futureEvents={organisedFutureEvents}
                     pastEvents={organisedPastEvents}
+                    name="organisedEvents"
+                    idFutureEvents="futureEventsOrganised"
+                    idPastEvents="pastEventsOrganised"
                 />
             </Item>
 
@@ -125,6 +128,9 @@ function MyAccount() {
                     allEvents={invitedEvents}
                     futureEvents={invitedFutureEvents}
                     pastEvents={invitedPastEvents}
+                    name="invitedEvent"
+                    idFutureEvents="futureEventsInvited"
+                    idPastEvents="pastEventsInvited"
                 />
             </Item>
         </Page>

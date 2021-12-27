@@ -44,15 +44,12 @@ function Description(props) {
 
     useEffect(() => {
         setBioHeight(ref.current.clientHeight)
-        console.log("useEffect", {
-            ref,
-            current: ref.current,
-            clientHeight: ref.current.clientHeight,
-        })
+        // console.log("useEffect", {
+        //     ref,
+        //     current: ref.current,
+        //     clientHeight: ref.current.clientHeight,
+        // })
     }, [])
-
-    console.log(bioHeight)
-    console.log(maxHeight)
 
     return (
         <>

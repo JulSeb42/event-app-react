@@ -38,92 +38,72 @@ function Tabs(props) {
 
     return (
         <>
-            {props.allEvents.length === 0 ? (
-                <Font.P>No event yet!</Font.P>
-            ) : props.pastEvents.length === 0 ? (
-                <List>
-                    {props.futureEvents
-                        .sort((a, b) => {
-                            return new Date(a.startDate) - new Date(b.startDate)
-                        })
-                        .map(event => (
-                            <Card event={event} key={event._id} />
-                        ))}
-                </List>
-            ) : props.futureEvents.length === 0 ? (
-                <List>
-                    {props.pastEvents
-                        .sort((a, b) => {
-                            return new Date(a.startDate) - new Date(b.startDate)
-                        })
-                        .map(event => (
-                            <Card event={event} key={event._id} />
-                        ))}
-                </List>
-            ) : (
-                <>
-                    <SelectorContainer>
-                        <Selector
-                            label="Future events"
-                            id="futureEvents"
-                            name="events"
-                            type="radio"
-                            onChange={handleVisibleFuture}
-                            defaultChecked={true}
-                        />
+            <SelectorContainer>
+                <Selector
+                    label="Future events"
+                    id={props.idFutureEvents || "futureEvents"}
+                    name={props.name || "events"}
+                    type="radio"
+                    onChange={handleVisibleFuture}
+                    defaultChecked={true}
+                />
 
-                        <Selector
-                            label="Past events"
-                            id="pastEvents"
-                            name="events"
-                            type="radio"
-                            onChange={handleVisiblePast}
-                        />
-                    </SelectorContainer>
+                <Selector
+                    label="Past events"
+                    id={props.idPastEvents || "pastEvents"}
+                    name={props.name || "events"}
+                    type="radio"
+                    onChange={handleVisiblePast}
+                />
+            </SelectorContainer>
 
-                    <Container visible={isVisibleFuture}>
-                        <Title>Future events</Title>
+            <Container visible={isVisibleFuture}>
+                <Title>Future events</Title>
 
-                        <List>
-                            {props.events
-                                .filter(
-                                    event =>
-                                        new Date() < new Date(event.startDate)
+                {props.futureEvents.length > 0 ? (
+                    <List>
+                        {props.futureEvents
+                            .filter(
+                                event => new Date() < new Date(event.startDate)
+                            )
+                            .sort((a, b) => {
+                                return (
+                                    new Date(a.startDate) -
+                                    new Date(b.startDate)
                                 )
-                                .sort((a, b) => {
-                                    return (
-                                        new Date(a.startDate) -
-                                        new Date(b.startDate)
-                                    )
-                                })
-                                .map(event => (
-                                    <Card event={event} key={event._id} />
-                                ))}
-                        </List>
-                    </Container>
+                            })
+                            .map(event => (
+                                <Card event={event} key={event._id} />
+                            ))}
+                    </List>
+                ) : (
+                    <Font.P>No event yet!</Font.P>
+                )}
+            </Container>
 
-                    <Container visible={isVisiblePast}>
-                        <Title>Past events</Title>
+            <Container visible={isVisiblePast}>
+                <Title>Past events</Title>
 
-                        <List>
-                            {props.events
-                                .filter(
-                                    event =>
-                                        new Date() > new Date(event.startDate)
+                {props.pastEvents.length > 0 ? (
+                    <List>
+                        {props.events
+                            .filter(
+                                event => new Date() > new Date(event.startDate)
+                            )
+                            .sort((a, b) => {
+                                return (
+                                    new Date(b.startDate) -
+                                    new Date(a.startDate)
                                 )
-                                .sort((a, b) => {
-                                    return (
-                                        new Date(b.startDate) -
-                                        new Date(a.startDate)
-                                    )
-                                })
-                                .map(event => (
-                                    <Card event={event} key={event._id} />
-                                ))}
-                        </List>
-                    </Container>
-                </>
-            )}
+                            })
+                            .map(event => (
+                                <Card event={event} key={event._id} />
+                            ))}
+                    </List>
+                ) : (
+                    <Font.P>No event yet!</Font.P>
+                )}
+            </Container>
         </>
     )
 }

@@ -86,6 +86,7 @@ router.put("/event/:id/edit", (req, res, next) => {
         imageUrl,
         invitedPeople,
         price,
+        free,
     } = req.body
 
     Event.findByIdAndUpdate(

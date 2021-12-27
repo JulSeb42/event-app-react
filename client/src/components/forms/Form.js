@@ -27,6 +27,10 @@ function Form(props) {
                 {props.btnCancel && (
                     <Button to={props.btnCancel} btnstyle="secondary">Cancel</Button>
                 )}
+
+                {props.btnReset && (
+                    <Button btnstyle="secondary" type="reset" onClick={props.btnReset}>Cancel</Button>
+                )}
             </ButtonsContainer>
         </Container>
     )
