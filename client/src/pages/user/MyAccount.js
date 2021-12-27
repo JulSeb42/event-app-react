@@ -8,11 +8,12 @@ import { AuthContext } from "../../context/auth"
 import Page from "../../components/layouts/Page"
 import * as Font from "../../components/styles/Font"
 import Button from "../../components/ui/Button"
-import List from "../../components/events/List"
-import Card from "../../components/events/Card"
+// import List from "../../components/events/List"
+// import Card from "../../components/events/Card"
 import Item from "../../components/layouts/Item"
 import TitleButton from "../../components/layouts/TitleButton"
 import CardProfile from "../../components/user/CardProfile"
+import Tabs from "../../components/layouts/Tabs"
 
 const API_URL = "http://localhost:5005"
 
@@ -33,6 +34,30 @@ function MyAccount() {
         event.invitedPeople.some(e => e._id === user._id)
     )
 
+    const organisedPastEvents = organisedEvents
+        .filter(event => new Date() > new Date(event.startDate))
+        .sort((a, b) => {
+            return new Date(b.startDate) - new Date(a.startDate)
+        })
+
+    const organisedFutureEvents = organisedEvents
+        .filter(event => new Date() < new Date(event.startDate))
+        .sort((a, b) => {
+            return new Date(a.startDate) - new Date(b.startDate)
+        })
+    
+    const invitedPastEvents = invitedEvents
+        .filter(event => new Date() > new Date(event.startDate))
+        .sort((a, b) => {
+            return new Date(b.startDate) - new Date(a.startDate)
+        })
+
+    const invitedFutureEvents = invitedEvents
+        .filter(event => new Date() < new Date(event.startDate))
+        .sort((a, b) => {
+            return new Date(a.startDate) - new Date(b.startDate)
+        })
+
     return (
         <Page title={user.fullName}>
             <CardProfile user={user} welcome />
@@ -52,7 +77,7 @@ function MyAccount() {
             <Item>
                 <Font.H3>Your events</Font.H3>
 
-                {organisedEvents.length > 0 ? (
+                {/* {organisedEvents.length > 0 ? (
                     <List>
                         {organisedEvents
                             .sort((a, b) => {
@@ -67,13 +92,19 @@ function MyAccount() {
                     </List>
                 ) : (
                     <Font.P>You did not organise any event yet!</Font.P>
-                )}
+                )} */}
+                <Tabs
+                    events={organisedEvents}
+                    allEvents={organisedEvents}
+                    futureEvents={organisedFutureEvents}
+                    pastEvents={organisedPastEvents}
+                />
             </Item>
 
             <Item>
                 <Font.H3>Events you are invited to</Font.H3>
 
-                {invitedEvents.length > 0 ? (
+                {/* {invitedEvents.length > 0 ? (
                     <List>
                         {invitedEvents
                             .sort((a, b) => {
@@ -88,7 +119,13 @@ function MyAccount() {
                     </List>
                 ) : (
                     <Font.P>You are not invited to any event yet!</Font.P>
-                )}
+                )} */}
+                <Tabs
+                    events={invitedEvents}
+                    allEvents={invitedEvents}
+                    futureEvents={invitedFutureEvents}
+                    pastEvents={invitedPastEvents}
+                />
             </Item>
         </Page>
     )

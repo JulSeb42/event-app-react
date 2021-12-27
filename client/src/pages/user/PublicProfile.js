@@ -5,13 +5,14 @@ import axios from "axios"
 // Components
 import Page from "../../components/layouts/Page"
 import * as Font from "../../components/styles/Font"
-import List from "../../components/events/List"
-import Card from "../../components/events/Card"
+// import List from "../../components/events/List"
+// import Card from "../../components/events/Card"
 import CardProfile from "../../components/user/CardProfile"
 import Item from "../../components/layouts/Item"
+import Tabs from "../../components/layouts/Tabs"
 
 // Utils
-import getFirstName from "../../components/utils/getFirstName"
+// import getFirstName from "../../components/utils/getFirstName"
 
 const API_URL = "http://localhost:5005"
 
@@ -37,6 +38,30 @@ function PublicProfile(props) {
         event => event.visibility === "public"
     )
 
+    const organisedPastEvents = organisedEvents
+        .filter(event => new Date() > new Date(event.startDate))
+        .sort((a, b) => {
+            return new Date(b.startDate) - new Date(a.startDate)
+        })
+
+    const organisedFutureEvents = organisedEvents
+        .filter(event => new Date() < new Date(event.startDate))
+        .sort((a, b) => {
+            return new Date(a.startDate) - new Date(b.startDate)
+        })
+
+    const invitedPastEvents = publicInvited
+        .filter(event => new Date() > new Date(event.startDate))
+        .sort((a, b) => {
+            return new Date(b.startDate) - new Date(a.startDate)
+        })
+
+    const invitedFutureEvents = publicInvited
+        .filter(event => new Date() < new Date(event.startDate))
+        .sort((a, b) => {
+            return new Date(a.startDate) - new Date(b.startDate)
+        })
+
     return (
         <Page title={props.user.fullName}>
             <CardProfile user={props.user} />
@@ -53,7 +78,7 @@ function PublicProfile(props) {
                     events
                 </Font.H3>
 
-                {organisedEvents.length > 0 ? (
+                {/* {organisedEvents.length > 0 ? (
                     <List>
                         {organisedEvents
                             .sort((a, b) => {
@@ -71,7 +96,13 @@ function PublicProfile(props) {
                         {getFirstName(props.user.fullName)} did not organise any
                         event yet!
                     </Font.P>
-                )}
+                )} */}
+                <Tabs
+                    events={organisedEvents}
+                    allEvents={organisedEvents}
+                    futureEvents={organisedFutureEvents}
+                    pastEvents={organisedPastEvents}
+                />
             </Item>
 
             <Item>
@@ -85,7 +116,7 @@ function PublicProfile(props) {
                     invited to
                 </Font.H3>
 
-                {publicInvited.length > 0 ? (
+                {/* {publicInvited.length > 0 ? (
                     <List>
                         {publicInvited
                             .sort((a, b) => {
@@ -103,7 +134,13 @@ function PublicProfile(props) {
                         {getFirstName(props.user.fullName)} is not invited to
                         any event yet!
                     </Font.P>
-                )}
+                )} */}
+                <Tabs
+                    events={invitedEvents}
+                    allEvents={invitedEvents}
+                    futureEvents={invitedFutureEvents}
+                    pastEvents={invitedPastEvents}
+                />
             </Item>
         </Page>
     )

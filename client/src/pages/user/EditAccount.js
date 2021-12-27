@@ -28,7 +28,7 @@ function EditAccount({ edited, setEdited }) {
     const [gender, setGender] = useState(user.gender)
     const [dateBirth, setDateBirth] = useState(user.dateBirth)
     const [city, setCity] = useState(user.city)
-    const [bio, setBio] = useState(user.bio)
+    const [bio, setBio] = useState(user.bio !== undefined ? user.bio : "")
     const [errorMessage, setErrorMessage] = useState(undefined)
 
     const handleFullName = e => setFullName(e.target.value)
