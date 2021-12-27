@@ -45,6 +45,16 @@ function EventDetail(props) {
             </Item>
 
             <Item>
+                <Font.H2>Price</Font.H2>
+
+                <Font.P>
+                    {props.event.price === undefined || props.event.price === 0
+                        ? "Free"
+                        : `${props.event.price}€`}
+                </Font.P>
+            </Item>
+
+            <Item>
                 <Font.H2>About</Font.H2>
                 <Description>{props.event.description}</Description>
             </Item>

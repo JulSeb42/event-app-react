@@ -48,6 +48,7 @@ router.put("/events/new-event", (req, res, next) => {
         location,
         imageUrl,
         invitedPeople,
+        price,
     } = req.body
 
     Event.create({
@@ -62,6 +63,7 @@ router.put("/events/new-event", (req, res, next) => {
         location,
         imageUrl,
         invitedPeople,
+        price,
     })
         .then(createdEvent => {
             res.status(200).json({ createdEvent })
@@ -83,6 +85,7 @@ router.put("/event/:id/edit", (req, res, next) => {
         location,
         imageUrl,
         invitedPeople,
+        price,
     } = req.body
 
     Event.findByIdAndUpdate(
@@ -99,6 +102,7 @@ router.put("/event/:id/edit", (req, res, next) => {
             location,
             imageUrl,
             invitedPeople,
+            price,
         },
         { new: true }
     )

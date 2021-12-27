@@ -31,6 +31,7 @@ function EditEvent({ edited, setEdited, ...props }) {
     // Inputs
     const [title, setTitle] = useState(props.event.title)
     const [location, setlocation] = useState(props.event.location)
+    const [price, setPrice] = useState(props.event.price !== undefined ? props.event.price : 0)
     const [visibility, setVisibility] = useState(props.event.visibility)
     const [startDate, setStartDate] = useState(props.event.startDate)
     const [endDate, setEndDate] = useState(props.event.endDate)
@@ -70,6 +71,7 @@ function EditEvent({ edited, setEdited, ...props }) {
     // Handle inputs
     const handleTitle = e => setTitle(e.target.value)
     const handleLocation = e => setlocation(e.target.value)
+    const handlePrice = e => setPrice(e.target.value)
 
     const handleVisibility = e => {
         if (e.target.checked) {
@@ -127,6 +129,7 @@ function EditEvent({ edited, setEdited, ...props }) {
         const requestBody = {
             title,
             location,
+            price,
             visibility,
             startDate,
             endDate,
@@ -180,6 +183,15 @@ function EditEvent({ edited, setEdited, ...props }) {
                     id="location"
                     onChange={handleLocation}
                     value={location}
+                />
+
+                <Input
+                    label="Price"
+                    id="price"
+                    type="number"
+                    onChange={handlePrice}
+                    value={price}
+                    min="0"
                 />
 
                 <Toggle

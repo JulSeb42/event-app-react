@@ -32,6 +32,7 @@ const eventSchema = new Schema({
     description: String,
     location: String,
     imageUrl: String,
+    price: Number,
     
     invitedPeople: [
         {

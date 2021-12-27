@@ -1,23 +1,20 @@
 // Packages
-import React, { useState } from "react"
+import React, { useState, useRef, useEffect } from "react"
 import styled from "styled-components"
 
 // Components
 import * as Variables from "../styles/Variables"
 import * as Font from "../styles/Font"
 
+const maxHeight = 90
+
 // Styles
 const Container = styled(Font.P)`
-    max-height: calc(${Variables.FontSizes.Body} * ${Variables.LineHeight} * 5);
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 5;
-    -webkit-box-orient: vertical;
+    max-height: 100px;
     overflow: hidden;
 
     &.open {
         max-height: inherit;
-        -webkit-line-clamp: inherit;
     }
 `
 
@@ -39,16 +36,35 @@ const Button = styled.button`
 function Description(props) {
     const [isOpen, setIsOpen] = useState(false)
     const open = isOpen ? "open" : ""
+    const [bioHeight, setBioHeight] = useState(undefined)
+
+    // const height = createRef()
+    // console.log(height)
+    const ref = useRef()
+
+    useEffect(() => {
+        setBioHeight(ref.current.clientHeight)
+        console.log("useEffect", {
+            ref,
+            current: ref.current,
+            clientHeight: ref.current.clientHeight,
+        })
+    }, [])
+
+    console.log(bioHeight)
+    console.log(maxHeight)
 
     return (
         <>
-            <Container className={open} bio>
+            <Container className={open} bio ref={ref}>
                 {props.children}
             </Container>
 
-            <Button onClick={() => setIsOpen(!open)}>
-                Read {isOpen ? "less" : "more"}
-            </Button>
+            {bioHeight > maxHeight && (
+                <Button onClick={() => setIsOpen(!open)}>
+                    Read {isOpen ? "less" : "more"}
+                </Button>
+            )}
         </>
     )
 }

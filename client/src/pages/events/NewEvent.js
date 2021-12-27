@@ -28,6 +28,7 @@ function NewEvent() {
 
     const [title, setTitle] = useState("")
     const [location, setLocation] = useState("")
+    const [price, setPrice] = useState(0)
     const [visibility, setVisibility] = useState("private")
     const [startDate, setStartDate] = useState("")
     const [endDate, setEndDate] = useState("")
@@ -41,6 +42,7 @@ function NewEvent() {
 
     const handleTitle = e => setTitle(e.target.value)
     const handleLocation = e => setLocation(e.target.value)
+    const handlePrice = e => setPrice(e.target.value)
 
     const handleVisibility = e => {
         if (e.target.checked) {
@@ -114,6 +116,7 @@ function NewEvent() {
         const requestBody = {
             title,
             location,
+            price,
             startDate,
             endDate,
             startTime,
@@ -162,6 +165,15 @@ function NewEvent() {
                     onChange={handleLocation}
                     value={location}
                     required
+                />
+
+                <Input
+                    label="Price"
+                    id="price"
+                    type="number"
+                    onChange={handlePrice}
+                    value={price}
+                    min="0"
                 />
 
                 <Toggle
