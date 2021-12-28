@@ -6,7 +6,7 @@ import localStorageExpires from "../components/utils/localStorageExpires"
 
 const AuthContext = createContext()
 
-const API_URL = "http://localhost:5005"
+// const API_URL = "http://localhost:5005"
 
 function AuthProviderWrapper(props) {
     const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -22,16 +22,18 @@ function AuthProviderWrapper(props) {
     }
 
     const logoutUser = () => {
-        localStorage.removeItem("isLoggedIn")
-        localStorage.removeItem("user")
-        setIsLoggedIn(false)
-        setUser(null)
+        axios.put("/auth/logout").then(() => {
+            localStorage.removeItem("isLoggedIn")
+            localStorage.removeItem("user")
+            setIsLoggedIn(false)
+            setUser(null)
+        })
     }
 
     const verify = () => {
         if (localStorage.getItem("isLoggedIn")) {
             axios
-                .get(`${API_URL}/auth/loggedin`)
+                .get(`/auth/loggedin`)
                 .then(() => {
                     setUser(JSON.parse(localStorage.getItem("user")))
                     setIsLoggedIn(true)

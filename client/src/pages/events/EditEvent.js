@@ -18,7 +18,7 @@ import Grid from "../../components/forms/Grid"
 import ListUsers from "../../components/forms/ListUsers"
 import InputCover from "../../components/forms/InputCover"
 
-const API_URL = "http://localhost:5005"
+// const API_URL = "http://localhost:5005"
 
 function EditEvent({ edited, setEdited, ...props }) {
     const { user } = useContext(AuthContext)
@@ -49,7 +49,7 @@ function EditEvent({ edited, setEdited, ...props }) {
     // Search users
     useEffect(() => {
         axios
-            .get(`${API_URL}/users/users`)
+            .get(`/users/users`)
             .then(res => {
                 setAllUsers(res.data)
             })
@@ -141,7 +141,7 @@ function EditEvent({ edited, setEdited, ...props }) {
         }
 
         axios
-            .put(`${API_URL}/events/event/${props.event._id}/edit`, requestBody)
+            .put(`/events/event/${props.event._id}/edit`, requestBody)
             .then(res => {
                 setEdited(!edited)
                 navigate(`/events/${props.event._id}`)

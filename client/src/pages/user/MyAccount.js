@@ -15,7 +15,7 @@ import TitleButton from "../../components/layouts/TitleButton"
 import CardProfile from "../../components/user/CardProfile"
 import Tabs from "../../components/layouts/Tabs"
 
-const API_URL = "http://localhost:5005"
+// const API_URL = "http://localhost:5005"
 
 function MyAccount() {
     const { user } = useContext(AuthContext)
@@ -23,7 +23,7 @@ function MyAccount() {
 
     useEffect(() => {
         axios
-            .get(`${API_URL}/events/events`)
+            .get(`/events/events`)
             .then(res => setAllEvents(res.data))
     }, [])
 

@@ -20,7 +20,7 @@ import Grid from "../../components/forms/Grid"
 import getToday from "../../components/utils/getToday"
 import getNow from "../../components/utils/getNow"
 
-const API_URL = "http://localhost:5005"
+// const API_URL = "http://localhost:5005"
 
 function NewEvent() {
     const { user } = useContext(AuthContext)
@@ -88,7 +88,7 @@ function NewEvent() {
 
     useEffect(() => {
         axios
-            .get(`${API_URL}/users/users`)
+            .get(`/users/users`)
             .then(res => {
                 setAllUsers(res.data)
             })
@@ -129,7 +129,7 @@ function NewEvent() {
         }
 
         axios
-            .put(`${API_URL}/events/events/new-event`, requestBody)
+            .put(`/events/events/new-event`, requestBody)
             .then(res => {
                 console.log(res.data)
                 navigate(`/events/${res.data.createdEvent._id}`)

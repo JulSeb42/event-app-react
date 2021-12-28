@@ -12,7 +12,7 @@ import Form from "../../components/forms/Form"
 import Input from "../../components/forms/Input"
 import Error from "../../components/forms/Error"
 
-const API_URL = "http://localhost:5005"
+// const API_URL = "http://localhost:5005"
 
 function Login() {
     const { loginUser, isLoggedIn } = useContext(AuthContext)
@@ -31,7 +31,7 @@ function Login() {
         const requestBody = { email, password }
 
         axios
-            .put(`${API_URL}/auth/login`, requestBody)
+            .put(`/auth/login`, requestBody)
             .then(res => {
                 loginUser(res.data)
                 navigate("/")

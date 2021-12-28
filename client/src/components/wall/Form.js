@@ -26,7 +26,7 @@ const ButtonOpen = styled(Button)`
     display: ${props => props.open};
 `
 
-const API_URL = "http://localhost:5005"
+// const API_URL = "http://localhost:5005"
 
 function Form(props) {
     const [isOpen, setIsOpen] = useState(false)
@@ -52,7 +52,7 @@ function Form(props) {
         }
 
         axios
-            .put(`${API_URL}/posts/post/new-post`, requestBody)
+            .put(`/posts/post/new-post`, requestBody)
             .then(() => {
                 window.location.reload(false)
             })

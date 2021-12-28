@@ -17,14 +17,14 @@ const Container = styled.div`
     gap: ${Variables.Margins.S};
 `
 
-const API_URL = "http://localhost:5005"
+// const API_URL = "http://localhost:5005"
 
 function Wall(props) {
     const [allPosts, setAllPosts] = useState([])
 
     useEffect(() => {
         axios
-            .get(`${API_URL}/posts/post`)
+            .get(`/posts/post`)
             .then(res => setAllPosts(res.data))
             .catch(err => console.log(err))
     }, [])

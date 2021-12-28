@@ -14,14 +14,14 @@ import Tabs from "../../components/layouts/Tabs"
 // Utils
 // import getFirstName from "../../components/utils/getFirstName"
 
-const API_URL = "http://localhost:5005"
+// const API_URL = "http://localhost:5005"
 
 function PublicProfile(props) {
     const [allEvents, setAllEvents] = useState([])
 
     useEffect(() => {
         axios
-            .get(`${API_URL}/events/events`)
+            .get(`/events/events`)
             .then(res => setAllEvents(res.data))
     }, [])
 

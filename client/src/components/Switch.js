@@ -26,7 +26,7 @@ import NewEvent from "../pages/events/NewEvent"
 import EventDetail from "../pages/events/EventDetail"
 import EditEvent from "../pages/events/EditEvent"
 
-const API_URL = "http://localhost:5005"
+// const API_URL = "http://localhost:5005"
 
 function Switch() {
     // localStorage.clear()
@@ -36,14 +36,14 @@ function Switch() {
 
     useEffect(() => {
         axios
-            .get(`${API_URL}/users/users`)
+            .get(`/users/users`)
             .then(res => setAllUsers(res.data))
             .catch(err => console.log(err))
     }, [edited])
 
     useEffect(() => {
         axios
-            .get(`${API_URL}/events/events`)
+            .get(`/events/events`)
             .then(res => setAllEvents(res.data))
             .catch(err => console.log(err))
     }, [])

@@ -48,14 +48,14 @@ const InfoContainer = styled.span`
 
 const Message = styled(Font.P)``
 
-const API_URL = "http://localhost:5005"
+// const API_URL = "http://localhost:5005"
 
 function Card(props) {
     const { user } = useContext(AuthContext)
 
     const handleDelete = () => {
         axios
-            .delete(`${API_URL}/posts/post/${props.post._id}/delete`)
+            .delete(`/posts/post/${props.post._id}/delete`)
             .then(() => {
                 window.location.reload(false)
             })

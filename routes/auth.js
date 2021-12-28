@@ -81,7 +81,7 @@ router.put("/login", isLoggedOut, (req, res, next) => {
 
     if (password.length < 6) {
         return res.status(400).json({
-            error: "Your password needs to be at least 6 characters long.",
+            message: "Your password needs to be at least 6 characters long.",
         })
     }
 
@@ -108,7 +108,7 @@ router.put("/login", isLoggedOut, (req, res, next) => {
         .catch(err => next(err))
 })
 
-router.get("/logout", isLoggedIn, (req, res) => {
+router.put("/logout", isLoggedIn, (req, res) => {
     req.session.destroy(err => {
         if (err) {
             return res.status(500).json({ message: err.message })

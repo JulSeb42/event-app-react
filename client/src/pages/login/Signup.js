@@ -16,7 +16,7 @@ import { SelectorContainer, Selector } from "../../components/forms/Selector"
 // Utils
 import randomAvatar from "../../components/utils/randomAvatar"
 
-const API_URL = "http://localhost:5005"
+// const API_URL = "http://localhost:5005"
 
 function Signup() {
     const { loginUser, isLoggedIn } = useContext(AuthContext)
@@ -69,7 +69,7 @@ function Signup() {
         }
 
         axios
-            .put(`${API_URL}/auth/signup`, requestBody)
+            .put(`/auth/signup`, requestBody)
             .then(res => {
                 loginUser(res.data)
                 navigate("/")

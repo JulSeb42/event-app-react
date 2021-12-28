@@ -10,14 +10,14 @@ import Button from "../components/ui/Button"
 import Tabs from "../components/layouts/Tabs"
 import FiltersContainer from "../components/forms/FiltersContainer"
 
-const API_URL = "http://localhost:5005"
+// const API_URL = "http://localhost:5005"
 
 function Home() {
     const [allEvents, setAllEvents] = useState([])
 
     useEffect(() => {
         axios
-            .get(`${API_URL}/events/events`)
+            .get(`/events/events`)
             .then(res => setAllEvents(res.data))
             .catch(err => console.log(err))
     }, [])

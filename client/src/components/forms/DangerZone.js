@@ -22,7 +22,7 @@ const Container = styled.div`
     border-radius: ${Variables.Radiuses.M};
 `
 
-const API_URL = "http://localhost:5005"
+// const API_URL = "http://localhost:5005"
 
 function DangerZone(props) {
     const [open, setOpen] = useState(false)
@@ -34,7 +34,7 @@ function DangerZone(props) {
 
     const handleDeleteAccount = () => {
         axios
-            .delete(`${API_URL}/users/user/${user._id}/delete`)
+            .delete(`/users/user/${user._id}/delete`)
             .then(() => {
                 logoutUser()
                 navigate("/login")
@@ -44,7 +44,7 @@ function DangerZone(props) {
 
     const handleDeleteEvent = () => {
         axios
-            .delete(`${API_URL}/events/event/${props.eventId}/delete`)
+            .delete(`/events/event/${props.eventId}/delete`)
             .then(() => {
                 navigate("/my-account")
             })

@@ -18,7 +18,7 @@ import InputProfilePicture from "../../components/forms/InputProfilePicture"
 import Error from "../../components/forms/Error"
 import { Selector, SelectorContainer } from "../../components/forms/Selector"
 
-const API_URL = "http://localhost:5005"
+// const API_URL = "http://localhost:5005"
 
 function EditAccount({ edited, setEdited }) {
     const { user, updateUser } = useContext(AuthContext)
@@ -99,7 +99,7 @@ function EditAccount({ edited, setEdited }) {
         }
 
         axios
-            .put(`${API_URL}/users/user/edit`, requestBody)
+            .put(`/users/user/edit`, requestBody)
             .then(res => {
                 const { user } = res.data
                 updateUser(user)
