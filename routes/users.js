@@ -23,9 +23,13 @@ router.get("/user/:id", (req, res, next) => {
 
 // Edit account
 router.put("/edit", (req, res, next) => {
-    const { id, fullName } = req.body
+    const { id, fullName, city, bio, gender, dateBirth, imageUrl } = req.body
 
-    User.findByIdAndUpdate(id, { fullName }, { new: true })
+    User.findByIdAndUpdate(
+        id,
+        { fullName, city, bio, gender, dateBirth, imageUrl },
+        { new: true }
+    )
         .then(updatedUser => {
             res.status(200).json({ user: updatedUser })
         })
