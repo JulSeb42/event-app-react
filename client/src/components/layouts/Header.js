@@ -1,11 +1,21 @@
 // Packages
 import React, { useContext, useState } from "react"
-import { NavLink } from "react-router-dom"
+import { NavLink, useLocation } from "react-router-dom"
 import styled from "styled-components"
-import { LinkScroll as Link, Variables } from "components-react-julseb"
+import {
+    LinkScroll as Link,
+    Variables,
+    DropdownContainer,
+    Dropdown,
+    Hr,
+    Form,
+    Input,
+    Icon,
+} from "components-react-julseb"
 
 // Components
 import { AuthContext } from "../../context/auth"
+import ButtonAccount from "../ui/ButtonAccount"
 
 // Data
 import SiteData from "../data/SiteData"
@@ -17,6 +27,7 @@ const Container = styled.header`
     align-items: center;
     justify-content: space-between;
     padding: ${Variables.Margins.L} 5vw;
+    background-color: ${Variables.Colors.Primary500};
 `
 
 const Burger = styled.button`
@@ -90,10 +101,18 @@ const Nav = styled.nav`
             top: 72px;
         }
     }
+
+    & > *:not(:last-child) {
+        margin-right: ${Variables.Margins.M};
+    }
+
+    & > a {
+        color: ${Variables.Colors.White};
+    }
 `
 
 const LinkNav = styled(NavLink)`
-    color: black;
+    color: ${Variables.Colors.White};
     font-family: ${Variables.FontFamilies.Body};
     font-size: ${Variables.FontSizes.Body};
     text-decoration: none;
@@ -102,20 +121,68 @@ const LinkNav = styled(NavLink)`
     background: none;
 
     &.active {
-        font-weight: ${Variables.FontWeights.Bold};
-    }
-
-    &:not(:last-child) {
-        margin-right: ${Variables.Margins.M};
+        font-weight: ${Variables.FontWeights.Black};
     }
 `
 
+const Drawer = styled(Dropdown)`
+    right: 0;
+    left: inherit;
+    background-color: ${Variables.Colors.Primary500};
+
+    hr {
+        width: 90%;
+    }
+`
+
+const Search = styled(Form)``
+
+const StyledLinkDropdown = styled(Link)`
+    color: ${Variables.Colors.White} !important;
+    background-color: ${Variables.Colors.Primary500} !important;
+    display: inline-flex;
+    align-items: center;
+    border: none;
+    font-size: ${Variables.FontSizes.Body};
+    font-family: ${Variables.FontFamilies.Body};
+    font-weight: ${Variables.FontWeights.Regular} !important;
+    padding: ${Variables.Margins.XS};
+    transition: ${Variables.Transitions.Short};
+
+    &:hover {
+        background-color: ${Variables.Colors.White} !important;
+        color: ${Variables.Colors.Primary500} !important;
+    }
+
+    &.active {
+        font-weight: ${Variables.FontWeights.Bold} !important;
+    }
+
+    & > span {
+        margin-right: ${Variables.Margins.XXS};
+    }
+`
+
+function ButtonNav(props) {
+    return (
+        <StyledLinkDropdown to={props.to} {...props}>
+            <Icon name={props.icon} size={16} />
+
+            {props.children}
+        </StyledLinkDropdown>
+    )
+}
+
 function Header() {
-    const { isLoggedIn, logoutUser } = useContext(AuthContext)
+    const location = useLocation().pathname
+
+    const { logoutUser, user } = useContext(AuthContext)
 
     // Burger
     const [isOpen, setIsOpen] = useState(false)
     const open = isOpen ? "open" : ""
+
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false)
 
     return (
         <Container>
@@ -130,20 +197,53 @@ function Header() {
             </Burger>
 
             <Nav className={open}>
+                <Search>
+                    <Input
+                        icon="search"
+                        id="search"
+                        placeholder="Search people or events"
+                    />
+                </Search>
+
                 <LinkNav to="/">Home</LinkNav>
 
-                {isLoggedIn ? (
-                    <>
-                        <LinkNav to="/my-account">My account</LinkNav>
-                        <LinkNav as="button" onClick={logoutUser}>
+                <DropdownContainer>
+                    <ButtonAccount
+                        user={user}
+                        onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                    />
+
+                    <Drawer className={isDropdownOpen ? "open" : ""}>
+                        <ButtonNav
+                            to="/my-account"
+                            className={location === "/my-account" && "active"}
+                            icon="user"
+                        >
+                            Profile
+                        </ButtonNav>
+
+                        <ButtonNav
+                            to="/my-account/edit"
+                            className={
+                                location === "/my-account/edit" && "active"
+                            }
+                            icon="edit"
+                        >
+                            Edit account
+                        </ButtonNav>
+
+                        <Hr />
+
+                        <ButtonNav
+                            as="button"
+                            to="/my-account"
+                            onClick={logoutUser}
+                            icon="logout"
+                        >
                             Log out
-                        </LinkNav>
-                    </>
-                ) : (
-                    <>
-                        <LinkNav to="/login">Login</LinkNav>
-                    </>
-                )}
+                        </ButtonNav>
+                    </Drawer>
+                </DropdownContainer>
             </Nav>
         </Container>
     )

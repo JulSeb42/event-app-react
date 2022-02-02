@@ -1,10 +1,10 @@
 const SiteData = {
-    Name: "App name",
+    Name: "Event app",
     Description: "",
-    Favicon: "/favicon.ico",
-    Email: "",
-    Author: "",
-    Year: "",
+    Favicon: "/favicon.svg",
+    Email: "julien.sebag@me.com",
+    Author: "Julien Sebag",
+    Year: "2021",
 
     // Metadata
     Cover: "",

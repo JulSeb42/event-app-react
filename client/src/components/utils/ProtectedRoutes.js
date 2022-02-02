@@ -10,7 +10,7 @@ function ProtectedRoutes({ children, redirectTo }) {
 
     if (isLoading) return <p>Is loading...</p>
 
-    return isLoggedIn ? children : <Navigate to={redirectTo} />
+    return isLoggedIn ? children : <Navigate to={redirectTo || "/login"} />
 }
 
 export default ProtectedRoutes

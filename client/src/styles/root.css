@@ -1,3 +1,16 @@
 :root {
     /* Overrides page */
+    --color-black: rgba(13, 19, 33, 1);
+    --color-primary-500: rgba(19, 83, 209, 1);
+    --color-primary-300: rgba(115, 158, 242, 1);
+    --color-primary-600: rgba(13, 56, 140, 1);
+    --color-primary-50: rgba(232, 239, 253, 1);
+    --color-success-500: rgba(162, 215, 41, 1);
+    --color-success-300: rgba(208, 235, 148, 1);
+    --color-success-600: rgba(113, 150, 28, 1);
+    --color-success-50: rgba(246, 251, 234, 1);
+    --color-danger-500: rgba(208, 0, 0, 1);
+    --color-danger-300: rgba(255, 82, 82, 1);
+    --color-danger-600: rgba(133, 0, 0, 1);
+    --color-danger-50: rgba(255, 229, 230, 1);
 }

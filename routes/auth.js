@@ -11,6 +11,8 @@ const isLoggedOut = require("../middleware/isLoggedOut")
 
 const saltRounds = 10
 
+const fileUploader = require("../config/cloudinary.config")
+
 // Logged in user
 router.get("/loggedin", (req, res) => {
     res.json(req.user)
@@ -18,7 +20,17 @@ router.get("/loggedin", (req, res) => {
 
 // Signup
 router.put("/signup", isLoggedOut, (req, res, next) => {
-    const { fullName, email, password, verified, verifyToken } = req.body
+    const {
+        fullName,
+        email,
+        password,
+        verified,
+        verifyToken,
+        city,
+        imageUrl,
+        dateBirth,
+        gender,
+    } = req.body
 
     if (!fullName) {
         return res
@@ -33,6 +45,10 @@ router.put("/signup", isLoggedOut, (req, res, next) => {
             message:
                 "Password needs to have at least 6 chars and must contain at least one number, one lowercase and one uppercase letter.",
         })
+    }
+
+    if (!city) {
+        return res.status(400).json({ message: "The city can not be blank." })
     }
 
     User.findOne({ email }).then(found => {
@@ -50,6 +66,10 @@ router.put("/signup", isLoggedOut, (req, res, next) => {
                     password: hashedPassword,
                     verified,
                     verifyToken,
+                    city,
+                    imageUrl,
+                    dateBirth,
+                    gender,
                 })
             })
             .then(user => {

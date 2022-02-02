@@ -39,7 +39,15 @@ function Switch() {
 
     return (
         <Routes>
-            <Route path="/" element={<Home />} preload={scrollToTop()} />
+            <Route
+                path="/"
+                element={
+                    <ProtectedRoutes>
+                        <Home />
+                    </ProtectedRoutes>
+                }
+                preload={scrollToTop()}
+            />
 
             {/* Auth */}
             <Route
@@ -50,7 +58,11 @@ function Switch() {
             <Route path="/login" element={<Login />} preload={scrollToTop()} />
             <Route
                 path="/thank-you"
-                element={<ThankYou />}
+                element={
+                    <ProtectedRoutes>
+                        <ThankYou />
+                    </ProtectedRoutes>
+                }
                 preload={scrollToTop()}
             />
             {allUsers.map(user => (

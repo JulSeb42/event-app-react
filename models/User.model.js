@@ -16,6 +16,11 @@ const userSchema = new Schema(
         verified: Boolean,
         verifyToken: String,
         resetToken: String,
+        city: String,
+        bio: String,
+        imageUrl: String,
+        dateBirth: String,
+        gender: String,
     },
     {
         timestamps: true,

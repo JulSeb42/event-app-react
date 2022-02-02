@@ -1,6 +1,7 @@
 // Packages
 import React from "react"
 import { Helmet, Wrapper, Main } from "components-react-julseb"
+import { useLocation } from "react-router-dom"
 
 // Components
 import Header from "./Header"
@@ -9,6 +10,12 @@ import Header from "./Header"
 import SiteData from "../data/SiteData"
 
 function Page(props) {
+    const location = useLocation().pathname
+    const conditionLocation =
+        location === "/login" ||
+        location === "/signup" ||
+        location === "/goodbye"
+
     return (
         <>
             <Helmet
@@ -23,7 +30,7 @@ function Page(props) {
                 language={SiteData.Language}
             />
 
-            <Header />
+            {!conditionLocation && <Header />}
 
             <Wrapper template={props.template}>
                 <Main>{props.children}</Main>
