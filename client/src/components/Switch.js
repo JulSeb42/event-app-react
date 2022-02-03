@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from "react"
 import { Routes, Route } from "react-router-dom"
 import axios from "axios"
-import { scrollToTop } from "components-react-julseb"
 
 // Pages
 import Home from "../pages/Home"
@@ -22,6 +21,9 @@ import Goodbye from "../pages/auth/Goodbye"
 import MyAccount from "../pages/user/MyAccount"
 import EditAccount from "../pages/user/EditAccount"
 import EditPassword from "../pages/user/EditPassword"
+
+// Events
+import NewEvent from "../pages/events/NewEvent"
 
 // Utils
 import ProtectedRoutes from "./utils/ProtectedRoutes"
@@ -46,16 +48,20 @@ function Switch() {
                         <Home />
                     </ProtectedRoutes>
                 }
-                preload={scrollToTop()}
             />
 
             {/* Auth */}
+            <Route path="/signup" element={<Signup />} />
+
+            <Route path="/login" element={<Login />} />
+
+            <Route path="/login/forgot-password" element={<ForgotPassword />} />
+
             <Route
-                path="/signup"
-                element={<Signup />}
-                preload={scrollToTop()}
+                path="/login/forgot-password/email-sent"
+                element={<ForgotSent />}
             />
-            <Route path="/login" element={<Login />} preload={scrollToTop()} />
+
             <Route
                 path="/thank-you"
                 element={
@@ -63,8 +69,8 @@ function Switch() {
                         <ThankYou />
                     </ProtectedRoutes>
                 }
-                preload={scrollToTop()}
             />
+
             {allUsers.map(user => (
                 <Route
                     path={`/verify/${user.verifyToken}/${user._id}`}
@@ -74,32 +80,18 @@ function Switch() {
                         </ProtectedRoutes>
                     }
                     key={`${user.verifyToken}/${user._id}`}
-                    preload={scrollToTop()}
                 />
             ))}
-            <Route
-                path="/login/forgot-password"
-                element={<ForgotPassword />}
-                preload={scrollToTop()}
-            />
-            <Route
-                path="/login/forgot-password/email-sent"
-                element={<ForgotSent />}
-                preload={scrollToTop()}
-            />
+
             {allUsers.map(user => (
                 <Route
                     path={`/reset-password/${user.resetToken}/${user._id}`}
                     element={<ResetPassword />}
                     key={`${user.resetToken}-${user._id}`}
-                    preload={scrollToTop()}
                 />
             ))}
-            <Route
-                path="/goodbye"
-                element={<Goodbye />}
-                preload={scrollToTop()}
-            />
+
+            <Route path="/goodbye" element={<Goodbye />} />
 
             {/* User */}
             <Route
@@ -109,7 +101,6 @@ function Switch() {
                         <MyAccount />
                     </ProtectedRoutes>
                 }
-                preload={scrollToTop()}
             />
             <Route
                 path="/my-account/edit"
@@ -118,7 +109,6 @@ function Switch() {
                         <EditAccount edited={edited} setEdited={setEdited} />
                     </ProtectedRoutes>
                 }
-                preload={scrollToTop()}
             />
             <Route
                 path="/my-account/edit-password"
@@ -127,11 +117,20 @@ function Switch() {
                         <EditPassword edited={edited} setEdited={setEdited} />
                     </ProtectedRoutes>
                 }
-                preload={scrollToTop()}
+            />
+
+            {/* Events */}
+            <Route
+                path="/events/new-event"
+                element={
+                    <ProtectedRoutes>
+                        <NewEvent />
+                    </ProtectedRoutes>
+                }
             />
 
             {/* 404 */}
-            <Route path="*" element={<NotFound />} preload={scrollToTop()} />
+            <Route path="*" element={<NotFound />} />
         </Routes>
     )
 }

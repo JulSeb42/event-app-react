@@ -12,7 +12,8 @@ import SiteData from "../data/SiteData"
 function Page(props) {
     const location = useLocation().pathname
     const conditionLocation =
-        location === "/login" ||
+        location.match(/^\/login.*$/gim) ||
+        location.match(/^\/reset-password.*$/gim) ||
         location === "/signup" ||
         location === "/goodbye"
 

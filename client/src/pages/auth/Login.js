@@ -1,14 +1,8 @@
 // Packages
 import React, { useContext, useState } from "react"
 import axios from "axios"
-import { useNavigate, Navigate } from "react-router-dom"
-import {
-    Font,
-    Form,
-    Input,
-    LinkScroll as Link,
-    Alert,
-} from "components-react-julseb"
+import { useNavigate, Navigate, Link } from "react-router-dom"
+import { Font, Form, Input, Alert } from "components-react-julseb"
 
 // Components
 import { AuthContext } from "../../context/auth"

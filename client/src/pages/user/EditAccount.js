@@ -1,13 +1,12 @@
 // Packages
 import React, { useContext, useState, useEffect } from "react"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, Link } from "react-router-dom"
 import axios from "axios"
 import {
     Font,
     Form,
     Input,
     Alert,
-    LinkScroll as Link,
     Autocomplete,
     InputContainer,
     getToday,

@@ -25,6 +25,9 @@ app.use("/auth", auth)
 const users = require("./routes/users")
 app.use("/users", users)
 
+const events = require("./routes/events")
+app.use("/events", events)
+
 const uploader = require("./routes/uploader")
 app.use("/uploader", uploader)
 

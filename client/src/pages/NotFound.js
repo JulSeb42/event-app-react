@@ -1,6 +1,7 @@
 // Packages
 import React from "react"
-import { Font, LinkScroll as Link } from "components-react-julseb"
+import { Link } from "react-router-dom"
+import { Font } from "components-react-julseb"
 
 // Components
 import Page from "../components/layouts/Page"

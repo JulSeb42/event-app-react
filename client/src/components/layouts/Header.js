@@ -1,9 +1,8 @@
 // Packages
 import React, { useContext, useState } from "react"
-import { NavLink, useLocation } from "react-router-dom"
+import { NavLink, useLocation, Link } from "react-router-dom"
 import styled from "styled-components"
 import {
-    LinkScroll as Link,
     Variables,
     DropdownContainer,
     Dropdown,

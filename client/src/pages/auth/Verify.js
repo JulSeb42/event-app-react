@@ -1,7 +1,8 @@
 // Packages
 import React, { useContext, useState } from "react"
 import axios from "axios"
-import { Font, LinkScroll as Link, Alert } from "components-react-julseb"
+import { Link } from "react-router-dom"
+import { Font, Alert } from "components-react-julseb"
 
 // Components
 import Page from "../../components/layouts/Page"
