@@ -1,21 +1,16 @@
 // Packages
-import React from "react"
+import React, { useContext } from "react"
 import { Helmet, Wrapper, Main } from "components-react-julseb"
-import { useLocation } from "react-router-dom"
 
 // Components
+import { AuthContext } from "../../context/auth"
 import Header from "./Header"
 
 // Data
 import SiteData from "../data/SiteData"
 
 function Page(props) {
-    const location = useLocation().pathname
-    const conditionLocation =
-        location.match(/^\/login.*$/gim) ||
-        location.match(/^\/reset-password.*$/gim) ||
-        location === "/signup" ||
-        location === "/goodbye"
+    const { isLoggedIn } = useContext(AuthContext)
 
     return (
         <>
@@ -31,7 +26,7 @@ function Page(props) {
                 language={SiteData.Language}
             />
 
-            {!conditionLocation && <Header />}
+            {isLoggedIn && <Header />}
 
             <Wrapper template={props.template}>
                 <Main>{props.children}</Main>

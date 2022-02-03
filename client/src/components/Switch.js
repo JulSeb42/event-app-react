@@ -1,6 +1,6 @@
 // Packages
 import React, { useState, useEffect } from "react"
-import { Routes, Route } from "react-router-dom"
+import { Routes, Route, Navigate } from "react-router-dom"
 import axios from "axios"
 
 // Pages
@@ -24,18 +24,25 @@ import EditPassword from "../pages/user/EditPassword"
 
 // Events
 import NewEvent from "../pages/events/NewEvent"
+import EventDetail from "../pages/events/EventDetail"
 
 // Utils
 import ProtectedRoutes from "./utils/ProtectedRoutes"
 
 function Switch() {
     const [allUsers, setAllUsers] = useState([])
+    const [allEvents, setAllEvents] = useState([])
     const [edited, setEdited] = useState(false)
 
     useEffect(() => {
         axios
             .get("/users/user")
             .then(res => setAllUsers(res.data))
+            .catch(err => console.log(err))
+
+        axios
+            .get("/events/events")
+            .then(res => setAllEvents(res.data))
             .catch(err => console.log(err))
     }, [])
 
@@ -120,14 +127,28 @@ function Switch() {
             />
 
             {/* Events */}
+            <Route path="/events" element={<Navigate to="/" />} />
+
             <Route
                 path="/events/new-event"
                 element={
                     <ProtectedRoutes>
-                        <NewEvent />
+                        <NewEvent edited={edited} setEdited={setEdited} />
                     </ProtectedRoutes>
                 }
             />
+
+            {allEvents.map(event => (
+                <Route
+                    path={`/events/${event._id}`}
+                    element={
+                        <ProtectedRoutes>
+                            <EventDetail event={event} />
+                        </ProtectedRoutes>
+                    }
+                    key={event._id}
+                />
+            ))}
 
             {/* 404 */}
             <Route path="*" element={<NotFound />} />

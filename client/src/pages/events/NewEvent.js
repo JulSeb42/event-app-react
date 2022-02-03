@@ -28,8 +28,8 @@ import getNow from "../../components/utils/getNow"
 // visibility,
 // invitedPeople,
 
-function NewEvent(props) {
-    const { user } = useContext(AuthContext)
+function NewEvent({ edited, setEdited }) {
+    const { user, updateUser } = useContext(AuthContext)
     const navigate = useNavigate()
 
     const [title, setTitle] = useState()
@@ -151,7 +151,9 @@ function NewEvent(props) {
         axios
             .post("/events/new-event", requestBody)
             .then(res => {
-                console.log(res.data)
+                const { user } = res.data
+                updateUser(user)
+                setEdited(!edited)
                 navigate(`/events/${res.data._id}`)
                 window.location.reload(false)
             })

@@ -21,6 +21,18 @@ const userSchema = new Schema(
         imageUrl: String,
         dateBirth: String,
         gender: String,
+        organisedEvents: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: "Event",
+            },
+        ],
+        invitedEvents: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: "Event",
+            },
+        ],
     },
     {
         timestamps: true,

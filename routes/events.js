@@ -1,5 +1,6 @@
 const router = require("express").Router()
 const Event = require("../models/Event.model")
+const User = require("../models/User.model")
 
 // Get all events
 router.get("/events", (req, res, next) => {
@@ -80,7 +81,15 @@ router.post("/new-event", (req, res, next) => {
         price,
         invitedPeople,
     })
-        .then(createdEvent => res.status(200).json(createdEvent))
+        .then(createdEvent => {
+            User.findByIdAndUpdate(
+                organiser,
+                { $push: { organisedEvents: createdEvent } },
+                { new: true }
+            ).then(updatedUser => {
+                res.status(200).json({ user: updatedUser, createdEvent })
+            })
+        })
         .catch(err => next(err))
 })
 
