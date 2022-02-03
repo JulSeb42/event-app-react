@@ -25,6 +25,7 @@ import EditPassword from "../pages/user/EditPassword"
 // Events
 import NewEvent from "../pages/events/NewEvent"
 import EventDetail from "../pages/events/EventDetail"
+import EditEvent from "../pages/events/EditEvent"
 
 // Utils
 import ProtectedRoutes from "./utils/ProtectedRoutes"
@@ -144,6 +145,18 @@ function Switch() {
                     element={
                         <ProtectedRoutes>
                             <EventDetail event={event} />
+                        </ProtectedRoutes>
+                    }
+                    key={event._id}
+                />
+            ))}
+
+            {allEvents.map(event => (
+                <Route
+                    path={`/events/${event._id}/edit`}
+                    element={
+                        <ProtectedRoutes>
+                            <EditEvent event={event} />
                         </ProtectedRoutes>
                     }
                     key={event._id}

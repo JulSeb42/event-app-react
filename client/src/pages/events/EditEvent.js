@@ -1,54 +1,45 @@
 // Packages
-import React, { useState, useEffect, useContext } from "react"
-import { useNavigate } from "react-router-dom"
+import React, { useContext, useState, useEffect } from "react"
 import axios from "axios"
 import {
     Font,
     Form,
     Input,
+    CheckInput,
+    getToday,
     Grid,
     Variables,
-    getToday,
-    CheckInput,
     Alert,
-    // getTimeNow,
 } from "components-react-julseb"
+import { useNavigate, Navigate } from "react-router-dom"
 
-// Components
+// Packages
 import { AuthContext } from "../../context/auth"
 import Page from "../../components/layouts/Page"
 import InputCover from "../../components/ui/InputCover"
 import InvitePeople from "../../components/ui/InvitePeople"
 import service from "../../components/service/cloudinary-service"
 
-// Utils
-import getNow from "../../components/utils/getNow"
-
-// organiser,
-// visibility,
-// invitedPeople,
-
-function NewEvent({ edited, setEdited }) {
-    const { user, updateUser } = useContext(AuthContext)
+function EditEvent({ event, edited, setEdited }) {
+    const { user } = useContext(AuthContext)
     const navigate = useNavigate()
 
-    const [title, setTitle] = useState()
-    const [location, setLocation] = useState("")
-    const [startDate, setStartDate] = useState(getToday())
-    const [endDate, setEndDate] = useState(getToday())
-    const [startTime, setStartTime] = useState(getNow(0))
-    const [endTime, setEndTime] = useState(getNow(1))
-    const [price, setPrice] = useState(0)
-    const [imageUrl, setImageUrl] = useState("")
-    const [picture, setPicture] = useState("")
-    const [description, setDescription] = useState("")
-    const [isPrivate, setIsPrivate] = useState(true)
+    const [title, setTitle] = useState(event.title)
+    const [location, setLocation] = useState(event.location)
+    const [startDate, setStartDate] = useState(event.startDate)
+    const [endDate, setEndDate] = useState(event.endDate)
+    const [startTime, setStartTime] = useState(event.startTime)
+    const [endTime, setEndTime] = useState(event.endTime)
+    const [price, setPrice] = useState(event.price)
+    const [imageUrl, setImageUrl] = useState(event.imageUrl)
+    const [picture, setPicture] = useState(event.imageUrl)
+    const [description, setDescription] = useState(event.description)
+    const [isPrivate, setIsPrivate] = useState(event.isPrivate)
     const [isLoading, setIsLoading] = useState(false)
     const [errorMessage, setErrorMessage] = useState(undefined)
 
     // Handles
     const handleTitle = e => setTitle(e.target.value)
-
     const handleLocation = e => setLocation(e.target.value)
     const handleStartDate = e => {
         setStartDate(e.target.value)
@@ -60,7 +51,7 @@ function NewEvent({ edited, setEdited }) {
     const handlePrice = e => setPrice(e.target.value)
 
     // Search people
-    const [invitedPeople, setInvitedPeople] = useState([])
+    const [invitedPeople, setInvitedPeople] = useState(event.invitedPeople)
     const [allUsers, setAllUsers] = useState([])
     const [search, setSearch] = useState("")
 
@@ -133,7 +124,6 @@ function NewEvent({ edited, setEdited }) {
         e.preventDefault()
 
         const requestBody = {
-            organiser: user._id,
             title,
             location,
             startDate,
@@ -148,13 +138,9 @@ function NewEvent({ edited, setEdited }) {
         }
 
         axios
-            .post("/events/new-event", requestBody)
+            .put(`/events/event/${event._id}/edit`, requestBody)
             .then(res => {
-                const { user } = res.data
-                console.log(res)
-                updateUser(user)
-                setEdited(!edited)
-                navigate(`/events/${res.data.createdEvent._id}`)
+                navigate(`/events/${event._id}`)
                 window.location.reload(false)
             })
             .catch(err => {
@@ -163,15 +149,19 @@ function NewEvent({ edited, setEdited }) {
             })
     }
 
-    return (
-        <Page title="New event" template="form">
-            <Font.H1>Create a new event</Font.H1>
+    console.log(invitedPeople.map(person => person._id))
+
+    return user._id !== event.organiser._id ? (
+        <Navigate to={`/events/${event._id}`} />
+    ) : (
+        <Page title={`Edit ${event.title}`} template="form">
+            <Font.H1>Edit {event.title}</Font.H1>
 
             <Form
-                btnprimary="Create a new event"
-                btncancel="/my-account"
-                loading={isLoading}
+                btnprimary="Edit event"
+                btncancel={`/events/${event._id}`}
                 onSubmit={handleSubmit}
+                loading={isLoading}
             >
                 <Input
                     label="Name of the event"
@@ -264,6 +254,8 @@ function NewEvent({ edited, setEdited }) {
                     results={results}
                     handleInvitedPeople={handleInvitedPeople}
                     invitedPeople={invitedPeople}
+                        edit
+                        
                 />
             </Form>
 
@@ -272,4 +264,4 @@ function NewEvent({ edited, setEdited }) {
     )
 }
 
-export default NewEvent
+export default EditEvent

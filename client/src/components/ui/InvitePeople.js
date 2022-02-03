@@ -53,9 +53,12 @@ function InvitePeople(props) {
                                 onChange={props.handleInvitedPeople}
                                 defaultChecked={
                                     props.edit &&
-                                    props.invitedPeople.includes(user._id) &&
+                                    props.invitedPeople
+                                        .map(user => user._id)
+                                        .includes(user._id) &&
                                     true
                                 }
+                                {...props}
                             />
                         </li>
                     ))}
