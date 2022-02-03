@@ -5,6 +5,8 @@ const User = require("../models/User.model")
 // Get all events
 router.get("/events", (req, res, next) => {
     Event.find()
+        .populate("organiser")
+        .populate("invitedPeople")
         .then(postFromDb => res.status(200).json(postFromDb))
         .catch(err => next(err))
 })
@@ -12,6 +14,8 @@ router.get("/events", (req, res, next) => {
 // Get event by Id
 router.get("/event/:id", (req, res, next) => {
     Event.findById(req.params.id)
+        .populate("organiser")
+        .populate("invitedPeople")
         .then(postFromDb => res.status(200).json(postFromDb))
         .catch(err => next(err))
 })

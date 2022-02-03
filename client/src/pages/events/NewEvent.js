@@ -145,16 +145,17 @@ function NewEvent({ edited, setEdited }) {
             imageUrl,
             description,
             isPrivate,
-            invitedPeople,
+            invitedPeople: Array.from(new Set(invitedPeople)),
         }
 
         axios
             .post("/events/new-event", requestBody)
             .then(res => {
                 const { user } = res.data
+                console.log(res)
                 updateUser(user)
                 setEdited(!edited)
-                navigate(`/events/${res.data._id}`)
+                navigate(`/events/${res.data.createdEvent._id}`)
                 window.location.reload(false)
             })
             .catch(err => {
