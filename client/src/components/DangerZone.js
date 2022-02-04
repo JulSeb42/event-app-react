@@ -1,58 +1,51 @@
 // Packages
-import React, { useState } from "react"
-import styled from "styled-components"
+import React, { useState, useEffect } from "react"
 import {
     Font,
     ButtonsContainer,
     Button,
-    Alert
+    Alert,
+    Modal,
 } from "components-react-julseb"
-
-// Styles
-const Container = styled(Alert)`
-    display: none;
-
-    &.active {
-        display: grid
-    }
-`
 
 function DangerZone(props) {
     const [isOpen, setIsOpen] = useState(false)
-    const visible = isOpen ? "none" : "block"
+    
+    useEffect(() => {
+        isOpen
+            ? document.body.classList.add("stop-scrolling")
+            : document.body.classList.remove("stop-scrolling")
+    }, [isOpen])
 
     return (
         <>
             <Button
-                onClick={() => setIsOpen(!isOpen)}
-                style={{ display: visible }}
+                onClick={() => setIsOpen(true)}
                 color="danger"
                 justify="start"
             >
                 {props.textbtnopen}
             </Button>
 
-            <Container
-                color="danger"
-                className={isOpen ? "active" : ""}
-                {...props}
-            >
-                <Font.P>{props.text}</Font.P>
+            <Modal className={isOpen ? "open" : ""}>
+                <Alert color="danger" {...props}>
+                    <Font.P>{props.text}</Font.P>
 
-                <ButtonsContainer>
-                    <Button onClick={props.onClickPrimary} color="danger">
-                        {props.textbtndelete}
-                    </Button>
+                    <ButtonsContainer>
+                        <Button onClick={props.onClickPrimary} color="danger">
+                            {props.textbtndelete}
+                        </Button>
 
-                    <Button
-                        type="button"
-                        onClick={() => setIsOpen(!isOpen)}
-                        btnstyle="text"
-                    >
-                        {props.textbtncancel || "No, cancel"}
-                    </Button>
-                </ButtonsContainer>
-            </Container>
+                        <Button
+                            type="button"
+                            onClick={() => setIsOpen(false)}
+                            btnstyle="text"
+                        >
+                            {props.textbtncancel || "No, cancel"}
+                        </Button>
+                    </ButtonsContainer>
+                </Alert>
+            </Modal>
         </>
     )
 }

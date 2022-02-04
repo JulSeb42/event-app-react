@@ -168,4 +168,15 @@ router.put("/event/:id/edit", (req, res, next) => {
         .catch(err => next(err))
 })
 
+// Delete event
+router.delete("/delete-event/:id", (req, res, next) => {
+    const id = req.params.id
+
+    Event.findByIdAndDelete(id)
+        .then(() => {
+            res.status(200).json({ message: "Event deleted" })
+        })
+        .catch(err => next(err))
+})
+
 module.exports = router

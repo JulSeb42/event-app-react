@@ -14,3 +14,8 @@
     --color-danger-600: rgba(133, 0, 0, 1);
     --color-danger-50: rgba(255, 229, 230, 1);
 }
+
+.stop-scrolling {
+    height: 100vh;
+    overflow: hidden;
+}

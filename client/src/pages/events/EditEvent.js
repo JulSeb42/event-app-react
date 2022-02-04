@@ -19,6 +19,7 @@ import Page from "../../components/layouts/Page"
 import InputCover from "../../components/ui/InputCover"
 import InvitePeople from "../../components/ui/InvitePeople"
 import service from "../../components/service/cloudinary-service"
+import DangerZone from "../../components/DangerZone"
 
 function EditEvent({ event, edited, setEdited }) {
     const { user } = useContext(AuthContext)
@@ -149,7 +150,12 @@ function EditEvent({ event, edited, setEdited }) {
             })
     }
 
-    console.log(invitedPeople.map(person => person._id))
+    const handleDelete = e => {
+        axios
+            .delete(`/events/delete-event/${event._id}`)
+            .then(() => navigate("/my-account"))
+            .catch(err => console.log(err))
+    }
 
     return user._id !== event.organiser._id ? (
         <Navigate to={`/events/${event._id}`} />
@@ -254,12 +260,18 @@ function EditEvent({ event, edited, setEdited }) {
                     results={results}
                     handleInvitedPeople={handleInvitedPeople}
                     invitedPeople={invitedPeople}
-                        edit
-                        
+                    edit
                 />
             </Form>
 
             {errorMessage && <Alert color="danger">{errorMessage}</Alert>}
+
+            <DangerZone
+                onClickPrimary={handleDelete}
+                textbtnopen="Delete this event"
+                text="Are you sure you want to delete this event?"
+                textbtndelete="Yes, delete the event"
+            />
         </Page>
     )
 }

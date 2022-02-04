@@ -52,7 +52,7 @@ function MyAccount() {
                 populatedUser.organisedEvents
                     .filter(event => new Date() > new Date(event.startDate))
                     .sort((a, b) => {
-                        return new Date(b.startDate) - new Date(a.startDate)
+                        return new Date(a.startDate) - new Date(b.startDate)
                     })
             )
 
@@ -68,7 +68,7 @@ function MyAccount() {
                 populatedUser.invitedEvents
                     .filter(event => new Date() > new Date(event.startDate))
                     .sort((a, b) => {
-                        return new Date(b.startDate) - new Date(a.startDate)
+                        return new Date(a.startDate) - new Date(b.startDate)
                     })
             )
 
@@ -116,8 +116,8 @@ function MyAccount() {
                             {populatedUser.organisedEvents
                                 .sort((a, b) => {
                                     return (
-                                        new Date(b.startDate) -
-                                        new Date(a.startDate)
+                                        new Date(a.startDate) -
+                                        new Date(b.startDate)
                                     )
                                 })
                                 .map(event => (
@@ -135,7 +135,7 @@ function MyAccount() {
                             <CardEvent event={event} key={event._id} />
                         ))
                     ) : (
-                        <Font.P>No future events yet.</Font.P>
+                        <Font.P>No future event yet.</Font.P>
                     )}
                 </TabsContent>
 
@@ -145,7 +145,7 @@ function MyAccount() {
                             <CardEvent event={event} key={event._id} />
                         ))
                     ) : (
-                        <Font.P>No past events yet.</Font.P>
+                        <Font.P>No past event yet.</Font.P>
                     )}
                 </TabsContent>
             </TabsContainer>
@@ -171,8 +171,8 @@ function MyAccount() {
                             {populatedUser.invitedEvents
                                 .sort((a, b) => {
                                     return (
-                                        new Date(b.startDate) -
-                                        new Date(a.startDate)
+                                        new Date(a.startDate) -
+                                        new Date(b.startDate)
                                     )
                                 })
                                 .map(event => (
@@ -190,7 +190,7 @@ function MyAccount() {
                             <CardEvent event={event} key={event._id} />
                         ))
                     ) : (
-                        <Font.P>No future events yet.</Font.P>
+                        <Font.P>No future event yet.</Font.P>
                     )}
                 </TabsContent>
 
@@ -200,7 +200,7 @@ function MyAccount() {
                             <CardEvent event={event} key={event._id} />
                         ))
                     ) : (
-                        <Font.P>No past events yet.</Font.P>
+                        <Font.P>No past event yet.</Font.P>
                     )}
                 </TabsContent>
             </TabsContainer>
