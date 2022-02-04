@@ -11,6 +11,7 @@ import {
     TabsContent,
     Grid,
     Variables,
+    CheckInput,
 } from "components-react-julseb"
 import styled from "styled-components"
 
@@ -41,19 +42,57 @@ function Home() {
         a.startDate > b.startDate ? 1 : -1
     )
 
-    const filteredEvents = sortedEvents.filter(
-        event =>
-            event.organiser._id === user._id ||
-            event.invitedPeople.map(users => users._id).includes(user._id) ||
-            event.isPrivate === false
-    )
+    // Filter events
+    const [showEvents, setShowEvents] = useState([])
 
-    const pastEvents = filteredEvents.filter(
+    useEffect(() => {
+        setShowEvents(
+            sortedEvents.filter(
+                event =>
+                    event.organiser._id === user._id ||
+                    event.invitedPeople
+                        .map(users => users._id)
+                        .includes(user._id) ||
+                    event.isPrivate === false
+            )
+        )
+    }, [sortedEvents, user._id])
+
+    const pastEvents = showEvents.filter(
         event => new Date() > new Date(event.startDate)
     )
-    const futureEvents = filteredEvents.filter(
+
+    const futureEvents = showEvents.filter(
         event => new Date() < new Date(event.startDate)
     )
+
+    const handleFree = e => {
+        if (e.target.checked) {
+            setShowEvents(
+                sortedEvents
+                    .filter(
+                        event =>
+                            event.organiser._id === user._id ||
+                            event.invitedPeople
+                                .map(users => users._id)
+                                .includes(user._id) ||
+                            event.isPrivate === false
+                    )
+                    .filter(event => event.price === 0)
+            )
+        } else {
+            setShowEvents(
+                sortedEvents.filter(
+                    event =>
+                        event.organiser._id === user._id ||
+                        event.invitedPeople
+                            .map(users => users._id)
+                            .includes(user._id) ||
+                        event.isPrivate === false
+                )
+            )
+        }
+    }
 
     // Tabs
     const [active, setActive] = useState(0)
@@ -65,6 +104,14 @@ function Home() {
 
                 <Button to="/events/new-event">Create a new event</Button>
             </TitleFlex>
+
+            <CheckInput
+                label="Only show free events"
+                id="freeEvents"
+                type="checkbox"
+                toggle
+                onChange={handleFree}
+            />
 
             <TabsContainer>
                 <TabsButtonsContainer col={datesEvents.length}>
@@ -81,8 +128,8 @@ function Home() {
 
                 <ContentTab className={active === 0 ? "active" : ""}>
                     <Grid gap={Variables.Margins.M}>
-                        {filteredEvents.length > 0 ? (
-                            filteredEvents.map(event => (
+                        {showEvents.length > 0 ? (
+                            showEvents.map(event => (
                                 <CardEvent event={event} key={event._id} />
                             ))
                         ) : (
