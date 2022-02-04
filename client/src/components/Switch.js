@@ -6,6 +6,7 @@ import axios from "axios"
 // Pages
 import Home from "../pages/Home"
 import NotFound from "../pages/NotFound"
+import Search from "../pages/Search"
 
 // Auth
 import Signup from "../pages/auth/Signup"
@@ -56,6 +57,12 @@ function Switch() {
                         <Home />
                     </ProtectedRoutes>
                 }
+            />
+
+            {/* Search */}
+            <Route
+                path="/search/:keyword"
+                element={<Search />}
             />
 
             {/* Auth */}

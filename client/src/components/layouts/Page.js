@@ -1,6 +1,7 @@
 // Packages
 import React, { useContext } from "react"
 import { Helmet, Wrapper, Main } from "components-react-julseb"
+import styled from "styled-components"
 
 // Components
 import { AuthContext } from "../../context/auth"
@@ -8,6 +9,11 @@ import Header from "./Header"
 
 // Data
 import SiteData from "../data/SiteData"
+
+const Container = styled(Wrapper)`
+    gap: ${props => props.gap};
+    align-content: start;
+`
 
 function Page(props) {
     const { isLoggedIn } = useContext(AuthContext)
@@ -28,9 +34,13 @@ function Page(props) {
 
             {isLoggedIn && <Header />}
 
-            <Wrapper template={props.template}>
-                <Main>{props.children}</Main>
-            </Wrapper>
+            <Container template={props.template} gap={props.gap}>
+                {props.template === "aside-left" ? (
+                    props.children
+                ) : (
+                    <Main>{props.children}</Main>
+                )}
+            </Container>
         </>
     )
 }

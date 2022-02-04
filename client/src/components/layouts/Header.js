@@ -1,6 +1,6 @@
 // Packages
 import React, { useContext, useState } from "react"
-import { NavLink, useLocation, Link } from "react-router-dom"
+import { NavLink, useLocation, Link, useNavigate } from "react-router-dom"
 import styled from "styled-components"
 import {
     Variables,
@@ -11,6 +11,7 @@ import {
     Input,
     Icon,
 } from "components-react-julseb"
+import axios from "axios"
 
 // Components
 import { AuthContext } from "../../context/auth"
@@ -183,6 +184,22 @@ function Header() {
 
     const [isDropdownOpen, setIsDropdownOpen] = useState(false)
 
+    // Search
+    const navigate = useNavigate()
+
+    const [search, setSearch] = useState("")
+
+    const handleSearch = e => setSearch(e.target.value)
+
+    const handleSubmit = e => {
+        e.preventDefault()
+
+        axios
+            .put(`/search/search/${search}`)
+            .then(() => navigate(`/search/${search}`))
+            .catch(err => console.log(err))
+    }
+
     return (
         <Container>
             <LinkNav as={Link} to="/">
@@ -196,11 +213,13 @@ function Header() {
             </Burger>
 
             <Nav className={open}>
-                <Search>
+                <Search onSubmit={handleSubmit}>
                     <Input
                         icon="search"
                         id="search"
                         placeholder="Search people or events"
+                        onChange={handleSearch}
+                        value={search}
                     />
                 </Search>
 
