@@ -67,36 +67,27 @@ const users = [
 ]
 
 const titles = [
-    "Ironwasted",
-    "Voguing Fundamentals With Pray Tell!",
-    "Shit Event",
-    "Drag Show With Sassy Divas",
-    "Get The Answer",
-    "Unholy Masquerade With Our Night Creatures",
+   
+
+    "",
+    "",
     "Bring Back The Drama Comedy Show",
 ]
 const descriptions = [
-    "Let's celebrate the end of this amazing project ❤️",
-    "The Legendary Pray Tell of New York, an emcee in the Ball scene, a member of the Masters of Ceremony Council, and a father figure to the children of ballroom is hosting Voguing Fundamentals in Apartment 306. Angel Evangelista is going to get you moving to the trendiest tunes.\nAngel Evangelista and Pray Tell has a heart for beginners and loves to bring more of you into the scene. No excuse for not showing up!",
-    "dfdf",
-    "Join us for our second edition of Sassy Divas at Drunken Cat!\nJoining us on the stage are two local drag sensations: Tess Tickles and Clit Eastwood. Oh yes, they are here to heat up your night!\nSo grab your friends, put on your fancy clothes and don't tell your mother. \n2G applies.",
-    "Let's hop in the Heart of Gold and get this freaking answer 🚀",
-    "The event is hosted by Berlin Vampire Association in cooperation with Vampiric Council organization. The celebration is open to local undead creatures such as vampires, witches, demons, banshees and zombies. Grab your plus one, but humans are a NO NO!\nParty dress or costumes are encouraged, but dressing as nuns or vampire hunters such as Blade is discouraged due to bad taste.\nThere will be blood!",
-    "A comedy showcase that delivers the laugh and tears you’ve been looking for! Best comedians in town:\nJackie Shaw\nDonnie Dong\nKennie Song,\nand more....\nso don't miss the opportunity, cause really.... who doesn't like a good comedy show?",
+    
+    
+
+    "",
+    "",
 ]
 const locations = [
-    "Ironhack Campus",
-    "Apartment 306, Revaler Str. Berlin",
-    "Shit Location",
-    "Tipsy Dog, Hundstrasse 1, Berlin",
-    "Magrathea",
-    "Unholy Str. 1, Berlin",
-    "Danziger Str. 40, Berlin",
+    
+
+    "",
+    "",
 ]
 const images = [
-    "https://res.cloudinary.com/dyfxmafvr/image/upload/v1643898468/Event%20app%20React%20New/akcjaie5cxshwlymno9p.jpg",
-    "https://res.cloudinary.com/dyfxmafvr/image/upload/v1643917770/Event%20app%20React%20New/am5vlygwy0mhou3xbz6a_tok6di.jpg",
-    "https://res.cloudinary.com/dyfxmafvr/image/upload/v1643917769/Event%20app%20React%20New/kkzk10ffcgoofhquxswb_splqwd.jpg",
+    
     "https://res.cloudinary.com/dyfxmafvr/image/upload/v1643917769/Event%20app%20React%20New/ze4kg4qn6lwx26rvyxa2_b2egx5.jpg",
     "https://res.cloudinary.com/dyfxmafvr/image/upload/v1643917769/Event%20app%20React%20New/bq1lfikw2sjcm4kanzmm_dsfbd0.jpg",
     "https://res.cloudinary.com/dyfxmafvr/image/upload/v1643917769/Event%20app%20React%20New/hp53vkfpvmvbdkrqpuin_xl1phq.jpg",

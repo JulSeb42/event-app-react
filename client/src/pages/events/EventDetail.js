@@ -55,6 +55,13 @@ function EventDetail({ event }) {
             </Grid>
 
             <Grid gap={Variables.Margins.XXS}>
+                <Font.H4>Visibility</Font.H4>
+                <Font.P>
+                    {event.isPrivate ? "Private" : "Public"}
+                </Font.P>
+            </Grid>
+
+            <Grid gap={Variables.Margins.XXS}>
                 <Font.H4>About</Font.H4>
                 {event.description ? (
                     <MarkdownContainer>{event.description}</MarkdownContainer>

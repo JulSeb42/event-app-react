@@ -6,7 +6,6 @@ import axios from "axios"
 // Pages
 import Home from "../pages/Home"
 import NotFound from "../pages/NotFound"
-import Seed from "../pages/Seed"
 
 // Auth
 import Signup from "../pages/auth/Signup"
@@ -58,8 +57,6 @@ function Switch() {
                     </ProtectedRoutes>
                 }
             />
-
-            <Route path="/seed" element={<Seed />} />
 
             {/* Auth */}
             <Route path="/signup" element={<Signup />} />
