@@ -93,7 +93,21 @@ router.post("/new-event", (req, res, next) => {
                 { $push: { organisedEvents: createdEvent } },
                 { new: true }
             ).then(updatedUser => {
-                res.status(200).json({ user: updatedUser, createdEvent })
+                User.updateMany(
+                    { _id: { $in: invitedPeople } },
+                    {
+                        $push: {
+                            invitedEvents: { createdEvent, answer: "pending" },
+                        },
+                    },
+                    { new: true }
+                ).then(updatedUsers => {
+                    res.status(200).json({
+                        user: updatedUser,
+                        createdEvent,
+                        updatedUsers,
+                    })
+                })
             })
         })
         .catch(err => next(err))
@@ -146,7 +160,7 @@ router.put("/event/:id/edit", (req, res, next) => {
     if (!location) {
         return res
             .status(400)
-            .json({ message: "The location time can not be empty." })
+            .json({ message: "The location can not be empty." })
     }
 
     Event.findByIdAndUpdate(
@@ -166,7 +180,19 @@ router.put("/event/:id/edit", (req, res, next) => {
         },
         { new: true }
     )
-        .then(updatedEvent => res.status(200).json(updatedEvent))
+        .then(updatedEvent => {
+            User.updateMany(
+                { _id: { $in: invitedPeople } },
+                {
+                    $push: {
+                        invitedEvents: { updatedEvent, answer: "pending" },
+                    },
+                },
+                { new: true }
+            ).then(updatedUsers => {
+                res.status(200).json({ updatedEvent, updatedUsers })
+            })
+        })
         .catch(err => next(err))
 })
 

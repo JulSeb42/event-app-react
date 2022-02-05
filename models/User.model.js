@@ -29,8 +29,14 @@ const userSchema = new Schema(
         ],
         invitedEvents: [
             {
-                type: Schema.Types.ObjectId,
-                ref: "Event",
+                event: {
+                    type: Schema.Types.ObjectId,
+                    ref: "Event",
+                },
+                answer: {
+                    enum: ["yes", "maybe", "no", "pending"],
+                    type: String,
+                },
             },
         ],
     },

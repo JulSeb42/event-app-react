@@ -10,6 +10,7 @@ import {
     TabsContent,
     Grid,
     Variables,
+    PageLoading,
 } from "components-react-julseb"
 import axios from "axios"
 
@@ -23,50 +24,74 @@ const datesEvents = ["Future events", "Past events"]
 
 function MyAccount() {
     const { user } = useContext(AuthContext)
-    const [allEvents, setAllEvents] = useState([])
+
+    const [isLoading, setIsLoading] = useState(true)
+    const [populatedUser, setPopulatedUser] = useState({})
 
     useEffect(() => {
-        axios.get(`/events/events`).then(res => setAllEvents(res.data))
-    }, [])
-
-    const organisedEvents = allEvents.filter(
-        event => event.organiser._id === user._id
-    )
-    const invitedEvents = allEvents.filter(event =>
-        event.invitedPeople.some(e => e._id === user._id)
-    )
-
-    const organisedPastEvents = organisedEvents
-        .filter(event => new Date() > new Date(event.startDate))
-        .sort((a, b) => {
-            return new Date(b.startDate) - new Date(a.startDate)
-        })
-
-    const organisedFutureEvents = organisedEvents
-        .filter(event => new Date() < new Date(event.startDate))
-        .sort((a, b) => {
-            return new Date(a.startDate) - new Date(b.startDate)
-        })
-
-    const invitedPastEvents = invitedEvents
-        .filter(event => new Date() > new Date(event.startDate))
-        .sort((a, b) => {
-            return new Date(b.startDate) - new Date(a.startDate)
-        })
-
-    const invitedFutureEvents = invitedEvents
-        .filter(event => new Date() < new Date(event.startDate))
-        .sort((a, b) => {
-            return new Date(a.startDate) - new Date(b.startDate)
-        })
+        axios
+            .get(`/users/user/${user._id}`)
+            .then(res => {
+                setPopulatedUser(res.data)
+                setIsLoading(false)
+            })
+            .catch(err => console.log(err))
+    }, [user._id])
 
     const [organisedActive, setOrganisedActive] = useState(0)
     const [invitedActive, setInvitedActive] = useState(0)
 
-    return (
-        <Page title={user.fullName}>
-            <UserCard user={user} welcome />
-            {!user.verified && <Font.P>Your account is not verified.</Font.P>}
+    const [organisedPastEvents, setOrganisedPastEvents] = useState([])
+    const [organisedFutureEvents, setOrganisedFutureEvents] = useState([])
+    const [invitedPastEvents, setInvitedPastEvents] = useState([])
+    const [invitedFutureEvents, setInvitedFutureEvents] = useState([])
+
+    useEffect(() => {
+        if (!isLoading) {
+            setOrganisedPastEvents(
+                populatedUser.organisedEvents
+                    .filter(event => new Date() > new Date(event.startDate))
+                    .sort((a, b) => {
+                        return new Date(a.startDate) - new Date(b.startDate)
+                    })
+            )
+
+            setOrganisedFutureEvents(
+                populatedUser.organisedEvents
+                    .filter(event => new Date() < new Date(event.startDate))
+                    .sort((a, b) => {
+                        return new Date(a.startDate) - new Date(b.startDate)
+                    })
+            )
+
+            setInvitedPastEvents(
+                populatedUser.invitedEvents
+                    .filter(event => new Date() > new Date(event.startDate))
+                    .sort((a, b) => {
+                        return new Date(a.startDate) - new Date(b.startDate)
+                    })
+            )
+
+            setInvitedFutureEvents(
+                populatedUser.invitedEvents
+                    .filter(event => new Date() < new Date(event.startDate))
+                    .sort((a, b) => {
+                        return new Date(a.startDate) - new Date(b.startDate)
+                    })
+            )
+        }
+    }, [isLoading, populatedUser])
+
+    console.log(populatedUser)
+
+    return isLoading ? (
+        <PageLoading />
+    ) : (
+        <Page title={populatedUser.fullName}>
+            <UserCard user={populatedUser} welcome />
+            {!populatedUser.verified && (
+                <Font.P>Your account is not verified.</Font.P>
+            )}
             <TitleFlex>
                 <Font.H2>Events</Font.H2>
 
