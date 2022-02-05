@@ -62,7 +62,11 @@ function Switch() {
             {/* Search */}
             <Route
                 path="/search/:keyword"
-                element={<Search />}
+                element={
+                    <ProtectedRoutes>
+                        <Search />
+                    </ProtectedRoutes>
+                }
             />
 
             {/* Auth */}
@@ -135,7 +139,14 @@ function Switch() {
             />
 
             {/* Events */}
-            <Route path="/events" element={<Navigate to="/" />} />
+            <Route
+                path="/events"
+                element={
+                    <ProtectedRoutes>
+                        <Navigate to="/" />
+                    </ProtectedRoutes>
+                }
+            />
 
             <Route
                 path="/events/new-event"

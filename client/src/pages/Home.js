@@ -20,7 +20,7 @@ import { AuthContext } from "../context/auth"
 import Page from "../components/layouts/Page"
 import CardEvent from "../components/event/CardEvent"
 
-const datesEvents = ["All", "Future events", "Past events"]
+const datesEvents = ["Future events", "Past events"]
 
 // Styles
 const ContentTab = styled(TabsContent)`
@@ -128,18 +128,6 @@ function Home() {
 
                 <ContentTab className={active === 0 ? "active" : ""}>
                     <Grid gap={Variables.Margins.M}>
-                        {showEvents.length > 0 ? (
-                            showEvents.map(event => (
-                                <CardEvent event={event} key={event._id} />
-                            ))
-                        ) : (
-                            <Font.P>No event yet.</Font.P>
-                        )}
-                    </Grid>
-                </ContentTab>
-
-                <ContentTab className={active === 1 ? "active" : ""}>
-                    <Grid gap={Variables.Margins.M}>
                         {futureEvents.length > 0 ? (
                             futureEvents.map(event => (
                                 <CardEvent event={event} key={event._id} />
@@ -150,7 +138,7 @@ function Home() {
                     </Grid>
                 </ContentTab>
 
-                <ContentTab className={active === 2 ? "active" : ""}>
+                <ContentTab className={active === 1 ? "active" : ""}>
                     <Grid gap={Variables.Margins.M}>
                         {pastEvents.length > 0 ? (
                             pastEvents.map(event => (

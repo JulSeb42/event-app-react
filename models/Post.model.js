@@ -14,6 +14,7 @@ const postSchema = new Schema(
 
         datePost: String,
         timePost: String,
+        edited: Boolean,
 
         event: {
             type: Schema.Types.ObjectId,

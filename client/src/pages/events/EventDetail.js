@@ -1,6 +1,7 @@
 // Packages
-import React, { useContext } from "react"
+import React, { useContext, useState, useEffect } from "react"
 import { Link } from "react-router-dom"
+import axios from "axios"
 import {
     Font,
     TitleFlex,
@@ -15,6 +16,8 @@ import Page from "../../components/layouts/Page"
 import Cover from "../../components/event/Cover"
 import MarkdownContainer from "../../components/ui/MarkdownContainer"
 import CardPicture from "../../components/user/CardPicture"
+import PostForm from "../../components/event/PostForm"
+import CardPost from "../../components/event/CardPost"
 
 function EventDetail({ event }) {
     const { user } = useContext(AuthContext)
@@ -22,6 +25,20 @@ function EventDetail({ event }) {
     const participants = event.invitedPeople.sort((a, b) =>
         a.fullName > b.fullName ? 1 : -1
     )
+
+    // Get all posts
+    const [allPosts, setAllPosts] = useState([])
+
+    useEffect(() => {
+        axios
+            .get("/posts/posts")
+            .then(res => setAllPosts(res.data))
+            .catch(err => console.log(err))
+    }, [])
+
+    const filteredPosts = allPosts
+        .filter(post => post.event._id === event._id)
+        .sort((a, b) => new Date(a.datePosted) - new Date(b.datePosted))
 
     return (
         <Page title={event.title}>
@@ -56,9 +73,7 @@ function EventDetail({ event }) {
 
             <Grid gap={Variables.Margins.XXS}>
                 <Font.H4>Visibility</Font.H4>
-                <Font.P>
-                    {event.isPrivate ? "Private" : "Public"}
-                </Font.P>
+                <Font.P>{event.isPrivate ? "Private" : "Public"}</Font.P>
             </Grid>
 
             <Grid gap={Variables.Margins.XXS}>
@@ -86,9 +101,21 @@ function EventDetail({ event }) {
                 )}
             </Grid>
 
-            {/* <Grid gap={Variables.Margins.XXS}>
+            <Grid gap={Variables.Margins.M}>
                 <Font.H4>Wall</Font.H4>
-            </Grid> */}
+
+                <PostForm event={event} />
+
+                <Grid gap={Variables.Margins.M}>
+                    {filteredPosts.length > 0 ? (
+                        filteredPosts.map(post => (
+                            <CardPost post={post} key={post._id} />
+                        ))
+                    ) : (
+                        <Font.P>No post yet.</Font.P>
+                    )}
+                </Grid>
+            </Grid>
         </Page>
     )
 }
