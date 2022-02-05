@@ -19,6 +19,7 @@ import styled from "styled-components"
 import { AuthContext } from "../context/auth"
 import Page from "../components/layouts/Page"
 import CardEvent from "../components/event/CardEvent"
+import LoaderContainer from "../components/ui/LoaderContainer"
 
 const datesEvents = ["Future events", "Past events"]
 
@@ -30,11 +31,15 @@ const ContentTab = styled(TabsContent)`
 function Home() {
     const { user } = useContext(AuthContext)
     const [allEvents, setAllEvents] = useState([])
+    const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
         axios
             .get("/events/events")
-            .then(res => setAllEvents(res.data))
+            .then(res => {
+                setAllEvents(res.data)
+                setIsLoading(false)
+            })
             .catch(err => console.log(err))
     }, [])
 
@@ -126,29 +131,41 @@ function Home() {
                     ))}
                 </TabsButtonsContainer>
 
-                <ContentTab className={active === 0 ? "active" : ""}>
-                    <Grid gap={Variables.Margins.M}>
-                        {futureEvents.length > 0 ? (
-                            futureEvents.map(event => (
-                                <CardEvent event={event} key={event._id} />
-                            ))
-                        ) : (
-                            <Font.P>No future event yet.</Font.P>
-                        )}
-                    </Grid>
-                </ContentTab>
+                {isLoading ? (
+                    <LoaderContainer />
+                ) : (
+                    <>
+                        <ContentTab className={active === 0 ? "active" : ""}>
+                            <Grid gap={Variables.Margins.M}>
+                                {futureEvents.length > 0 ? (
+                                    futureEvents.map(event => (
+                                        <CardEvent
+                                            event={event}
+                                            key={event._id}
+                                        />
+                                    ))
+                                ) : (
+                                    <Font.P>No future event yet.</Font.P>
+                                )}
+                            </Grid>
+                        </ContentTab>
 
-                <ContentTab className={active === 1 ? "active" : ""}>
-                    <Grid gap={Variables.Margins.M}>
-                        {pastEvents.length > 0 ? (
-                            pastEvents.map(event => (
-                                <CardEvent event={event} key={event._id} />
-                            ))
-                        ) : (
-                            <Font.P>No past event yet.</Font.P>
-                        )}
-                    </Grid>
-                </ContentTab>
+                        <ContentTab className={active === 1 ? "active" : ""}>
+                            <Grid gap={Variables.Margins.M}>
+                                {pastEvents.length > 0 ? (
+                                    pastEvents.map(event => (
+                                        <CardEvent
+                                            event={event}
+                                            key={event._id}
+                                        />
+                                    ))
+                                ) : (
+                                    <Font.P>No past event yet.</Font.P>
+                                )}
+                            </Grid>
+                        </ContentTab>
+                    </>
+                )}
             </TabsContainer>
         </Page>
     )
