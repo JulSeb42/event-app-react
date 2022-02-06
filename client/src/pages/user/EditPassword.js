@@ -52,6 +52,7 @@ function EditPassword({ edited, setEdited }) {
                     onChange={handlePassword}
                     value={password}
                     password
+                    autoFocus
                 />
             </Form>
 

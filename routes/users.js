@@ -9,7 +9,7 @@ const saltRounds = 10
 router.get("/user", (req, res, next) => {
     User.find()
         .populate("organisedEvents")
-        .populate("invitedEvents")
+        // .populate("invitedEvents")
         .populate({
             path: "invitedEvents",
             populate: {
@@ -27,7 +27,7 @@ router.get("/user", (req, res, next) => {
 router.get("/user/:id", (req, res, next) => {
     User.findById(req.params.id)
         .populate("organisedEvents")
-        .populate("invitedEvents")
+        // .populate("invitedEvents")
         .populate({
             path: "invitedEvents",
             populate: {

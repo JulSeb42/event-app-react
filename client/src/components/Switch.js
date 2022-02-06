@@ -22,6 +22,7 @@ import Goodbye from "../pages/auth/Goodbye"
 import MyAccount from "../pages/user/MyAccount"
 import EditAccount from "../pages/user/EditAccount"
 import EditPassword from "../pages/user/EditPassword"
+import PublicProfile from "../pages/user/PublicProfile"
 
 // Events
 import NewEvent from "../pages/events/NewEvent"
@@ -137,6 +138,17 @@ function Switch() {
                     </ProtectedRoutes>
                 }
             />
+            {allUsers.map(user => (
+                <Route
+                    path={`/users/${user._id}`}
+                    element={
+                        <ProtectedRoutes>
+                            <PublicProfile user={user} />
+                        </ProtectedRoutes>
+                    }
+                    key={user._id}
+                />
+            ))}
 
             {/* Events */}
             <Route

@@ -47,6 +47,7 @@ function ResetPassword() {
                     onChange={handlePassword}
                     value={password}
                     password
+                    autoFocus
                 />
             </Form>
 

@@ -1,43 +1,24 @@
 // Packages
-import React, { useState, useContext, useEffect } from "react"
+import React, { useState, useEffect } from "react"
 import {
     Font,
-    TitleFlex,
-    Button,
+    getFirstName,
     TabsContainer,
     TabsButtonsContainer,
     TabsButton,
     TabsContent,
     Grid,
     Variables,
-    PageLoading,
 } from "components-react-julseb"
-import axios from "axios"
 
 // Components
-import { AuthContext } from "../../context/auth"
 import Page from "../../components/layouts/Page"
 import UserCard from "../../components/user/UserCard"
 import CardEvent from "../../components/event/CardEvent"
 
 const datesEvents = ["Future events", "Past events"]
 
-function MyAccount() {
-    const { user } = useContext(AuthContext)
-
-    const [isLoading, setIsLoading] = useState(true)
-    const [populatedUser, setPopulatedUser] = useState({})
-
-    useEffect(() => {
-        axios
-            .get(`/users/user/${user._id}`)
-            .then(res => {
-                setPopulatedUser(res.data)
-                setIsLoading(false)
-            })
-            .catch(err => console.log(err))
-    }, [user._id])
-
+function PublicProfile({ user }) {
     const [organisedActive, setOrganisedActive] = useState(0)
     const [invitedActive, setInvitedActive] = useState(0)
 
@@ -47,60 +28,54 @@ function MyAccount() {
     const [invitedFutureEvents, setInvitedFutureEvents] = useState([])
 
     useEffect(() => {
-        if (!isLoading) {
-            setOrganisedPastEvents(
-                populatedUser.organisedEvents
-                    .filter(event => new Date() > new Date(event.startDate))
-                    .sort((a, b) => {
-                        return new Date(a.startDate) - new Date(b.startDate)
-                    })
-            )
+        setOrganisedPastEvents(
+            user.organisedEvents
+                .filter(event => new Date() > new Date(event.startDate))
+                .sort((a, b) => {
+                    return new Date(a.startDate) - new Date(b.startDate)
+                })
+        )
 
-            setOrganisedFutureEvents(
-                populatedUser.organisedEvents
-                    .filter(event => new Date() < new Date(event.startDate))
-                    .sort((a, b) => {
-                        return new Date(a.startDate) - new Date(b.startDate)
-                    })
-            )
+        setOrganisedFutureEvents(
+            user.organisedEvents
+                .filter(event => new Date() < new Date(event.startDate))
+                .sort((a, b) => {
+                    return new Date(a.startDate) - new Date(b.startDate)
+                })
+        )
 
-            setInvitedPastEvents(
-                populatedUser.invitedEvents
-                    .filter(event => new Date() > new Date(event.startDate))
-                    .sort((a, b) => {
-                        return new Date(a.startDate) - new Date(b.startDate)
-                    })
-            )
+        setInvitedPastEvents(
+            user.invitedEvents
+                .filter(event => new Date() > new Date(event.startDate))
+                .sort((a, b) => {
+                    return new Date(a.startDate) - new Date(b.startDate)
+                })
+        )
 
-            setInvitedFutureEvents(
-                populatedUser.invitedEvents
-                    .filter(event => new Date() < new Date(event.startDate))
-                    .sort((a, b) => {
-                        return new Date(a.startDate) - new Date(b.startDate)
-                    })
-            )
-        }
-    }, [isLoading, populatedUser])
+        setInvitedFutureEvents(
+            user.invitedEvents
+                .filter(event => new Date() < new Date(event.startDate))
+                .sort((a, b) => {
+                    return new Date(a.startDate) - new Date(b.startDate)
+                })
+        )
+    }, [user])
 
-    console.log(populatedUser)
+    return (
+        <Page title={user.fullName}>
+            <UserCard user={user} />
 
-    return isLoading ? (
-        <PageLoading />
-    ) : (
-        <Page title={populatedUser.fullName}>
-            <UserCard user={populatedUser} welcome />
+            <Font.H2>{getFirstName(user.fullName)}'s events</Font.H2>
 
-            {!populatedUser.verified && (
-                <Font.P>Your account is not verified.</Font.P>
-            )}
-
-            <TitleFlex>
-                <Font.H2>Events</Font.H2>
-
-                <Button to="/events/new-event">Add a new event</Button>
-            </TitleFlex>
-
-            <Font.H3>Events you organise</Font.H3>
+            <Font.H3>
+                Events{" "}
+                {user.gender === "man"
+                    ? "he "
+                    : user.gender === "woman"
+                    ? "she "
+                    : "they "}
+                organise{user.gender !== "other" && "s"}
+            </Font.H3>
 
             <TabsContainer>
                 <TabsButtonsContainer col={datesEvents.length}>
@@ -140,7 +115,15 @@ function MyAccount() {
                 </TabsContent>
             </TabsContainer>
 
-            <Font.H3>Events you are invited to</Font.H3>
+            <Font.H3>
+                Events{" "}
+                {user.gender === "man"
+                    ? "he is "
+                    : user.gender === "woman"
+                    ? "she is "
+                    : "they are "}
+                invited to
+            </Font.H3>
 
             <TabsContainer>
                 <TabsButtonsContainer col={datesEvents.length}>
@@ -183,4 +166,4 @@ function MyAccount() {
     )
 }
 
-export default MyAccount
+export default PublicProfile

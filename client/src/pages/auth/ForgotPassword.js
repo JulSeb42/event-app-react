@@ -55,6 +55,7 @@ function ForgotPassword() {
                     id="email"
                     onChange={handleEmail}
                     value={email}
+                    autoFocus
                 />
             </Form>
 

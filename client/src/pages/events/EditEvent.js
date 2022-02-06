@@ -174,6 +174,7 @@ function EditEvent({ event, edited, setEdited }) {
                     id="title"
                     onChange={handleTitle}
                     value={title}
+                    autoFocus
                 />
 
                 <Input

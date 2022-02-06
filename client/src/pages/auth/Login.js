@@ -13,7 +13,7 @@ function Login() {
     const navigate = useNavigate()
 
     const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
+    const [password, setPassword] = useState("Password42")
     const [errorMessage, setErrorMessage] = useState(undefined)
 
     const handleEmail = e => setEmail(e.target.value)
@@ -49,6 +49,7 @@ function Login() {
                     id="email"
                     onChange={handleEmail}
                     value={email}
+                    autoFocus
                 />
 
                 <Input

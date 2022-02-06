@@ -165,6 +165,7 @@ function EditAccount({ edited, setEdited }) {
                     id="fullName"
                     onChange={handleFullName}
                     value={fullName}
+                    autoFocus
                 />
 
                 <Input
